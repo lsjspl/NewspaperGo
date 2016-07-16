@@ -1,1 +1,1 @@
-# wmshttps://github.com/lsjspl/wms.git
+# NewspaperGo https://github.com/lsjspl/NewspaperGo.git
