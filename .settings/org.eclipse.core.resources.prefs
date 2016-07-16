@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+encoding//src/main/resources/config/permission.properties=UTF-8
+encoding//src/main/resources/config/role.properties=UTF-8
+encoding//src/main/resources/config/user.properties=UTF-8
+encoding/<project>=UTF-8
