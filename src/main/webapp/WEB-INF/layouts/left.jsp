@@ -40,6 +40,16 @@
 			</shiro:hasPermission>
 		</ul>
 	</div>
+	
+	 <div class="list-group-item" data-toggle="collapse" data-target="#catcherMenu"><span class="glyphicon glyphicon-leaf"></span> 爬虫管理</div>
+	 <div id="catcherMenu" class="collapse secondmenu">
+		<ul class="list-unstyled">
+			<li><a href="${ctx}/catcher/listUrlsInfo"><span class="glyphicon glyphicon-user"></span> 基础信息</a></li>
+			<li><a href="${ctx}/catcher/addUrlsInfo"><span class="glyphicon glyphicon-link"></span> 增加基础信息</a></li>
+			<li><a href="${ctx}/permission/listCatcher"><span class="glyphicon glyphicon-tag"></span> 爬取统计</a></li>
+		</ul>
+	</div>
+	
 	<div class="list-group-item" data-toggle="collapse" data-target="#orderMenu"><span class="glyphicon glyphicon-leaf"></span> 订单管理</div>
 	<div id="orderMenu" class="collapse secondmenu">
 		<ul class="list-unstyled right">

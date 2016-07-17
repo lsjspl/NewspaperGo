@@ -23,6 +23,17 @@ public class UrlsInfo {
 	private Date careatTime;
 
 	private int type;
+	
+	private int state;
+	
+
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
+	}
 
 	public int getId() {
 		return id;
