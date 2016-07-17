@@ -16,11 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @since 2016.07.14
- * @author liusanjun
- *
- */
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping(value = "catcher")
 public class CatcherController {
 
 	private static String outPutDataPath = "d:/";

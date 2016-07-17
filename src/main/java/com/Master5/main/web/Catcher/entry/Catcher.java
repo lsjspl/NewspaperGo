@@ -2,8 +2,17 @@ package com.Master5.main.web.Catcher.entry;
 
 import java.util.Date;
 
-public class Catcher {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "catcher")
+public class Catcher {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
 	private String content;

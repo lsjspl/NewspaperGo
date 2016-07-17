@@ -2,8 +2,18 @@ package com.Master5.main.web.Catcher.entry;
 
 import java.util.Date;
 
-public class UrlsInfo {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "urlsInfo")
+public class UrlsInfo {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
 	private String urls;
