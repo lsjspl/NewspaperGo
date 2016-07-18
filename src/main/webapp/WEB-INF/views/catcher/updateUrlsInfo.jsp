@@ -49,6 +49,26 @@
 			   <label for="name">关键词名字</label>
 			   <input type="text" class="form-control" name="name" id="name" value="${urlsInfo.name}">
 			</div>
+									<div class="form-group">
+			   <label for="titlePattern">标题</label>
+			   <input type="text" class="form-control" name="titlePattern" id="titlePattern" value="${urlsInfo.titlePattern}">
+			</div>
+						<div class="form-group">
+			   <label for="timePattern">时间</label>
+			   <input type="text" class="form-control" name="timePattern" id="timePattern"  value="${urlsInfo.timePattern}">
+			</div>
+						<div class="form-group">
+			   <label for="urlPattern">网址</label>
+			   <input type="text" class="form-control" name="urlPattern" id="urlPattern"  value="${urlsInfo.urlPattern}">
+			</div>
+						<div class="form-group">
+			   <label for="contentPattern">内容</label>
+			   <input type="text" class="form-control" name="contentPattern" id="contentPattern"  value="${urlsInfo.contentPattern}">
+			</div>
+						<div class="form-group">
+			   <label for="otherPattern">其他</label>
+			   <input type="text" class="form-control" name="otherPattern" id="otherPattern"  value="${urlsInfo.otherPattern}">
+			</div>
 			<div class="form-group">
 				<button id="enter" type="submit" class="btn btn-info pull-right">修改</button>
 			</div>

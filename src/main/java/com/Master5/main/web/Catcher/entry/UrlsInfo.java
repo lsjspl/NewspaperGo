@@ -26,6 +26,56 @@ public class UrlsInfo {
 	
 	private int state;
 	
+	private String titlePattern;
+	
+	private String timePattern;
+	
+	private String urlPattern;
+	
+	private String otherPattern;
+	
+	private String contentPattern;
+	
+
+	public String getTitlePattern() {
+		return titlePattern;
+	}
+
+	public void setTitlePattern(String titlePattern) {
+		this.titlePattern = titlePattern;
+	}
+
+	public String getTimePattern() {
+		return timePattern;
+	}
+
+	public void setTimePattern(String timePattern) {
+		this.timePattern = timePattern;
+	}
+
+	public String getUrlPattern() {
+		return urlPattern;
+	}
+
+	public void setUrlPattern(String urlPattern) {
+		this.urlPattern = urlPattern;
+	}
+
+	public String getOtherPattern() {
+		return otherPattern;
+	}
+
+	public void setOtherPattern(String otherPattern) {
+		this.otherPattern = otherPattern;
+	}
+
+	public String getContentPattern() {
+		return contentPattern;
+	}
+
+	public void setContentPattern(String contentPattern) {
+		this.contentPattern = contentPattern;
+	}
 
 	public int getState() {
 		return state;

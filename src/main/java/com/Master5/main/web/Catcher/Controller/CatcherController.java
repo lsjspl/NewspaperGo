@@ -44,4 +44,12 @@ public class CatcherController {
 		catcherService.saveUrlsInfo(urlsInfo);
 		return "catcher/listUrlsInfo";
 	}
+	
+	@RequestMapping(value = "work")
+	public String updateUrlsInfo(String[] urls) {
+		
+		catcherService.catcher(urls);
+		return "catcher/listUrlsInfo";
+	}
+	
 }

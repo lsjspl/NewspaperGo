@@ -21,7 +21,9 @@
 	<div class="panel panel-default">
 		<!-- Default panel contents -->
 		<div class="panel-heading">基础信息维护</div>
-		<div class="panel-body"></div>
+		<div class="panel-body">
+			<a href="catcher/work">开始爬取</a> <a href="catcher/work">爬取选中</a>
+		</div>
 		<div class="table-responsive">
 			<table class="table table-hover">
 				<thead>

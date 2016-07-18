@@ -22,14 +22,7 @@
 		<!-- Default panel contents -->
 		<div class="panel-heading">基础信息维护</div>
 		<div class="panel-body">
-
-			<shiro:hasPermission name="order:addOrders">
-				<div>
-					<!-- Button trigger modal -->
-					<button id="addOrders" class="btn btn-primary btn"
-						data-toggle="modal" data-target="#myModal">添加</button>
-				</div>
-			</shiro:hasPermission>
+	<a href="work">开始爬取</a> <a href="catcher/work">爬取选中</a>
 		</div>
 		<div class="table-responsive">
 			<table class="table table-hover">
@@ -41,6 +34,7 @@
 						<th>媒体类型</th>
 						<th>状态</th>
 						<th>创建时间</th>
+						<th>匹配参数</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -61,6 +55,13 @@
 									<c:when test="${list.state ==1}">不爬取</c:when>
 								</c:choose></td>
 							<td>${list.careatTime}</td>
+							 <td>
+							 		<div>标题：${list.titlePattern}</div>
+							 		<div>时间：${list.timePattern}</div>
+							 		<div>网址：${list.urlPattern}</div>
+							 		<div>内容：${list.contentPattern}</div>
+							 		<div>其他：${list.otherPattern}</div>
+							 </td>
 							<td>
 								<div class="list-group">
 									<a href="${ctx}/order/delOrders/${list.id}" class="list-group-item list-group-item-danger">
