@@ -39,8 +39,12 @@
 			   <input type="text" class="form-control" name="urls" id="urls" placeholder="">
 			</div>
 			<div class="form-group">
-			   <label for="name">关键词名字</label>
+			   <label for="name">媒体名称</label>
 			   <input type="text" class="form-control" name="name" id="name" placeholder="">
+			</div>
+			<div class="form-group">
+			   <label for="key">关键词</label>
+			   <input type="text" class="form-control" name="key" id="key" placeholder="">
 			</div>
 						<div class="form-group">
 			   <label for="titlePattern">标题</label>

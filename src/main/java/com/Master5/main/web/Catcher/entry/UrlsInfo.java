@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 @Entity
 @Table(name = "urlsInfo")
 public class UrlsInfo {
@@ -19,6 +21,8 @@ public class UrlsInfo {
 	private String urls;
 
 	private String name;
+	
+	private String key;
 
 	private Date careatTime;
 
@@ -37,6 +41,14 @@ public class UrlsInfo {
 	private String contentPattern;
 	
 
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
 	public String getTitlePattern() {
 		return titlePattern;
 	}
@@ -46,7 +58,7 @@ public class UrlsInfo {
 	}
 
 	public String getTimePattern() {
-		return timePattern;
+		return StringEscapeUtils.escapeHtml(timePattern);
 	}
 
 	public void setTimePattern(String timePattern) {

@@ -30,7 +30,8 @@
 					<tr>
 						<th>#</th>
 						<th>网址</th>
-						<th>筛选名称</th>
+						<th>媒体名称</th>
+						<th>关键词</th>
 						<th>媒体类型</th>
 						<th>状态</th>
 						<th>创建时间</th>
@@ -46,6 +47,7 @@
 
 							<td>${list.urls}</td>
 							<td>${list.name}</td>
+							<td>${list.key}</td>
 							<td><c:choose>
 									<c:when test="${list.type ==0}">地方媒体</c:when>
 									<c:when test="${list.type ==1}">中央媒体</c:when>

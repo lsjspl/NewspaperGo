@@ -1,5 +1,8 @@
 package com.Master5.main.web.Catcher.Controller;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,9 +49,9 @@ public class CatcherController {
 	}
 	
 	@RequestMapping(value = "work")
-	public String updateUrlsInfo(String[] urls) {
+	public String work(String[] urls,Date startDate,Date stopDate) {
 		
-		catcherService.catcher(urls);
+		catcherService.catcher(urls,Calendar.getInstance().getTime());
 		return "catcher/listUrlsInfo";
 	}
 	

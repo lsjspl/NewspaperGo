@@ -2,11 +2,14 @@ package com.Master5.main.web.Catcher.entry;
 
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -17,7 +20,10 @@ public class Catcher {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	@Type(type = "text")
+	@Column(name = "content", nullable = true)
 	private String content;
 
 	private String title;
@@ -25,11 +31,14 @@ public class Catcher {
 	private Date time;
 
 	private Date creatTime;
-
-	private byte[] baseInfo;
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	@Type(type = "text")
+	@Column(name = "baseInfo", nullable = true)
+	private String baseInfo;
 
 	private int urlId;
-	
+
 	private int state;
 
 	public int getState() {
@@ -80,11 +89,11 @@ public class Catcher {
 		this.creatTime = creatTime;
 	}
 
-	public byte[] getBaseInfo() {
+	public String getBaseInfo() {
 		return baseInfo;
 	}
 
-	public void setBaseInfo(byte[] baseInfo) {
+	public void setBaseInfo(String baseInfo) {
 		this.baseInfo = baseInfo;
 	}
 
