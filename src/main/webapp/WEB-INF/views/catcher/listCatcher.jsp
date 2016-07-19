@@ -29,6 +29,7 @@
 				<thead>
 					<tr>
 						<th>#</th>
+						<th>链接</th>
 						<th>标题</th>
 						<th>内容</th>
 						<th>时间</th>
@@ -39,12 +40,12 @@
 					<c:forEach items="${list}" var="list">
 						<tr>
 							<td>${list.id}</td>
-
+							<td><a href="${list.url}"  target="view_window">${list.url}</a></td>
 							<td>${list.title}</td>
 							<td>
-							文章内容：<textarea cols="60" rows="20">${list.content}</textarea>
+							文章内容：<textarea cols="40" rows="20">${list.content}</textarea>
 							<br/>
-							原始信息：<textarea cols="60" rows="20">${list.baseInfo}</textarea> 
+							原始信息：<textarea cols="40" rows="20">${list.baseInfo}</textarea> 
 							</td>
 							<td>${list.time}</td>
 							<td>
