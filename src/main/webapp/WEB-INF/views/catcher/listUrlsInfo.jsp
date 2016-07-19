@@ -9,11 +9,19 @@
 <META HTTP-EQUIV="pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
 <META HTTP-EQUIV="expires" CONTENT="Wed, 26 Feb 1997 08:21:57 GMT">
-
+<link rel="stylesheet"  href="${ctx}/resources/ui/js/time/datedropper.css">
+<script src="${ctx}/resources/ui/js/time/datedropper.min.js"></script>
 <title>主页</title>
 
-<script type="text/javascript">
-	
+<script>
+$(function(){
+	$("#startDate").dateDropper({
+		animate: true,
+		format: 'Y-m-d',
+		maxYear: '2020'
+	});
+});
+
 </script>
 </head>
 <body>
@@ -22,7 +30,10 @@
 		<!-- Default panel contents -->
 		<div class="panel-heading">基础信息维护</div>
 		<div class="panel-body">
-	<a href="work">开始爬取</a> <a href="catcher/work">爬取选中</a>
+		<form action="work" method="post">
+			从 <input type="text" class="input" name="startDate" id="startDate"> 到
+				<button type="submit" >开始爬取</button>
+		</form>
 		</div>
 		<div class="table-responsive">
 			<table class="table table-hover">
@@ -47,7 +58,7 @@
 
 							<td>${list.urls}</td>
 							<td>${list.name}</td>
-							<td>${list.key}</td>
+							<td>${list.keyWord}</td>
 							<td><c:choose>
 									<c:when test="${list.type ==0}">地方媒体</c:when>
 									<c:when test="${list.type ==1}">中央媒体</c:when>

@@ -51,7 +51,7 @@
 			</div>
 						<div class="form-group">
 			   <label for="key">关键词</label>
-			   <input type="text" class="form-control" name="key" id="key" value="${urlsInfo.key}">
+			   <input type="text" class="form-control" name="keyWord" id="keyWord" value="${urlsInfo.keyWord}">
 			</div>
 									<div class="form-group">
 			   <label for="titlePattern">标题</label>

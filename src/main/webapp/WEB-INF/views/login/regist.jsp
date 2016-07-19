@@ -13,7 +13,7 @@
 
 	<div>
 		<span class="glyphicon glyphicon-leaf info" aria-hidden="true" style="font-size: 140px;color: #21B6AE;"></span>
-		<div style="font-size: 25px;color: #000000;text-align: right;">食材管理系统</div>
+		<div style="font-size: 25px;color: #000000;text-align: right;">Newspaper Go</div>
 	</div>
 	<%-- <img  class="img-circle" id="headImg" src="${ctx}/resources/img/defaultHead.png"> --%>
 	<form class="form-horizontal" role="form"  action="${ctx}/login/loging" method="post">

@@ -43,8 +43,8 @@
 			   <input type="text" class="form-control" name="name" id="name" placeholder="">
 			</div>
 			<div class="form-group">
-			   <label for="key">关键词</label>
-			   <input type="text" class="form-control" name="key" id="key" placeholder="">
+			   <label for="keyWord">关键词</label>
+			   <input type="text" class="form-control" name="keyWord" id="keyWord" placeholder="">
 			</div>
 						<div class="form-group">
 			   <label for="titlePattern">标题</label>

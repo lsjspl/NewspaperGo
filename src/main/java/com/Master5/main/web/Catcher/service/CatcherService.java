@@ -51,12 +51,19 @@ public class CatcherService {
 	}
 
 	public UrlsInfo saveUrlsInfo(UrlsInfo urlsInfo) {
+		
+		System.out.println(urlsInfo);
 		urlsInfo.setTitlePattern(StringEscapeUtils.escapeHtml(urlsInfo.getTitlePattern()));
 		urlsInfo.setTimePattern(StringEscapeUtils.escapeHtml(urlsInfo.getTimePattern()));
 		urlsInfo.setContentPattern(StringEscapeUtils.escapeHtml(urlsInfo.getContentPattern()));
 		urlsInfo.setCareatTime(Calendar.getInstance().getTime());
 		return urlsInfoDao.saveAndFlush(urlsInfo);
 	}
+	
+	public List<Catcher> queryCatcher(){
+		return catcherDao.findAll();
+	}
+	
 
 	Pattern titlePatten = Pattern.compile("<\\s*?title\\s*?>([\\s\\S]*?)</\\s*?title\\s*?>");
 	Pattern bodyPatten = Pattern.compile("<\\s*?body\\s*?>([\\s\\S]*?)</\\s*?body\\s*?>");
@@ -78,7 +85,7 @@ public class CatcherService {
 				if (timeMatcher.find(1)) {
 					String tmp = timeMatcher.group(1);
 					SimpleDateFormat simpleDateFormat = new SimpleDateFormat(tmp);
-					urls = urls.replaceAll("%(\\S*)%", simpleDateFormat.format(Calendar.getInstance().getTime()));
+					urls = urls.replaceAll("%(\\S*)%", simpleDateFormat.format(date));
 				} else {
 					System.out.println("匹配时间错误");
 					continue;
@@ -126,9 +133,10 @@ public class CatcherService {
 								catcher.setContent(html2Text(matcher.group(1)));
 							}
 							catcher.setCreatTime(Calendar.getInstance().getTime());
-							catcher.setBaseInfo(result);
+							catcher.setBaseInfo(StringEscapeUtils.escapeHtml(result));
 							catcher.setUrlId(urlsInfo.getId());
 							catcher.setTime(date);
+							catcher.setUrl(childUrl);
 							catcherDao.saveAndFlush(catcher);
 						} catch (Exception e) {
 							System.out.println("报错了");

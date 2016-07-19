@@ -29,13 +29,9 @@
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>网址</th>
-						<th>名称</th>
-						<th>关键词</th>
-						<th>媒体类型</th>
-						<th>状态</th>
-						<th>创建时间</th>
-						<th>操作</th>
+						<th>标题</th>
+						<th>内容</th>
+						<th>时间</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -44,29 +40,14 @@
 						<tr>
 							<td>${list.id}</td>
 
-							<td>${list.urls}</td>
-							<td>${list.name}</td>
-							<td>${list.key}</td>
-							<td><c:choose>
-									<c:when test="${list.type ==0}">地方媒体</c:when>
-									<c:when test="${list.type ==1}">中央媒体</c:when>
-								</c:choose></td>
-							<td><c:choose>
-									<c:when test="${list.state ==0}">爬取</c:when>
-									<c:when test="${list.state ==1}">不爬取</c:when>
-								</c:choose></td>
-							<td>${list.careatTime}</td>
+							<td>${list.title}</td>
 							<td>
-								<div class="list-group">
-									<a href="${ctx}/order/delOrders/${list.id}"
-										class="list-group-item list-group-item-danger"> <span
-										class="glyphicon glyphicon-trash"> 删除</span>
-									</a> <a href="${ctx}/catcher/updateUrlsInfo/${list.id}"
-										class="list-group-item list-group-item-primary"> <span
-										class="glyphicon glyphicon-shopping-cart" aria-hidden="true">
-											编辑</span>
-									</a>
-								</div>
+							文章内容：<textarea cols="60" rows="20">${list.content}</textarea>
+							<br/>
+							原始信息：<textarea cols="60" rows="20">${list.baseInfo}</textarea> 
+							</td>
+							<td>${list.time}</td>
+							<td>
 							</td>
 						</tr>
 					</c:forEach>

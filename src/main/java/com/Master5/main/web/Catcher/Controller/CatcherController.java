@@ -1,11 +1,15 @@
 package com.Master5.main.web.Catcher.Controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,7 +22,14 @@ import com.Master5.main.web.Catcher.service.CatcherService;
 public class CatcherController {
 	@Autowired
 	CatcherService catcherService;
-
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	    dateFormat.setLenient(false);
+	    binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));//true:允许输入空值，false:不能为空值
+	}
+	
 	@RequestMapping(value = { "listUrlsInfo" })
 	public String listUrlsInfo(Model model) {
 		model.addAttribute("list", catcherService.queryUrlsInfo());
@@ -49,10 +60,16 @@ public class CatcherController {
 	}
 	
 	@RequestMapping(value = "work")
-	public String work(String[] urls,Date startDate,Date stopDate) {
+	public String work(String[] urls,Date startDate,Date endDate) {
 		
-		catcherService.catcher(urls,Calendar.getInstance().getTime());
+		catcherService.catcher(urls,startDate);
 		return "catcher/listUrlsInfo";
+	}
+	
+	@RequestMapping(value = { "listCatcher" })
+	public String listCatcher(Model model) {
+		model.addAttribute("list", catcherService.queryCatcher());
+		return "catcher/listCatcher";
 	}
 	
 }

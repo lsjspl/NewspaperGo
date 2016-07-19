@@ -22,7 +22,7 @@ public class UrlsInfo {
 
 	private String name;
 	
-	private String key;
+	private String keyWord;
 
 	private Date careatTime;
 
@@ -41,12 +41,12 @@ public class UrlsInfo {
 	private String contentPattern;
 	
 
-	public String getKey() {
-		return key;
+	public String getKeyWord() {
+		return keyWord;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
+	public void setKeyWord(String keyWord) {
+		this.keyWord = keyWord;
 	}
 
 	public String getTitlePattern() {
@@ -136,7 +136,5 @@ public class UrlsInfo {
 	public void setType(int type) {
 		this.type = type;
 	}
-	
-	
 
 }

@@ -20,7 +20,7 @@
 				<img class="img-thumbnail" src="${ctx}/resources/img/logo.png">
 			<span class="glyphicon glyphicon-fire" aria-hidden="true" style="font-size: 50px;"></span>
 				</a> --%>
-				 <a class="navbar-brand active" href="${ctx}/user/info">食材管理系统</a>
+				 <a class="navbar-brand active" href="${ctx}/user/info">Newspaper Go</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
