@@ -51,6 +51,10 @@
 			   <input type="text" class="form-control" name="titlePattern" id="titlePattern" placeholder="">
 			</div>
 						<div class="form-group">
+			   <label for="contentPattern">内容</label>
+			   <input type="text" class="form-control" name="contentPattern" id="contentPattern" placeholder="">
+			</div>
+<!-- 						<div class="form-group">
 			   <label for="timePattern">时间</label>
 			   <input type="text" class="form-control" name="timePattern" id="timePattern" placeholder="">
 			</div>
@@ -59,13 +63,9 @@
 			   <input type="text" class="form-control" name="urlPattern" id="urlPattern" placeholder="">
 			</div>
 						<div class="form-group">
-			   <label for="contentPattern">内容</label>
-			   <input type="text" class="form-control" name="contentPattern" id="contentPattern" placeholder="">
-			</div>
-						<div class="form-group">
 			   <label for="otherPattern">其他</label>
 			   <input type="text" class="form-control" name="otherPattern" id="otherPattern" placeholder="">
-			</div>
+			</div> -->
 			<div class="form-group">
 				<button id="enter" type="submit" class="btn btn-info pull-right">添加</button>
 			</div>

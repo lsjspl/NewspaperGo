@@ -12,23 +12,39 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 public class Test {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
-		String time="2016-06/24";
-		String url="http://hbrb.hebnews.cn/html/%yyyy-MM/dd%/content_109761.htm";
+//		
+		Document htmlDoc = Jsoup.connect("http://gxrb.gxnews.com.cn/html/2016-06/24/content_1280068.htm")
+				.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31").get();
+//		
+//		
+		String ss=htmlDoc.select("font[color='#05006C']").text();
+//		
+		System.out.println(ss);
 		
-		Pattern pattern=Pattern.compile("%(\\S*)%");
-		
-		Matcher matcher=pattern.matcher(url);
-		
-		if(matcher.find(1)){
-			String tmp=matcher.group(1);
-			SimpleDateFormat simpleDateFormat=new SimpleDateFormat(tmp);
-			System.out.println(url.replaceAll("%(\\S*)%", simpleDateFormat.format(Calendar.getInstance().getTime())));
-		}
-	
+//		System.out.println(send("http://www.cqrb.cn/html/cqrb/2016-07/18/001/content_137771.htm"));
+//		
+//		String time="2016-06/24";
+//		String url="http://hbrb.hebnews.cn/html/%yyyy-MM/dd%/content_109761.htm";
+//		
+//		Pattern pattern=Pattern.compile("%(\\S*)%");
+//		
+//		Matcher matcher=pattern.matcher(url);
+//		
+//		if(matcher.find(1)){
+//			String tmp=matcher.group(1);
+//			SimpleDateFormat simpleDateFormat=new SimpleDateFormat(tmp);
+//			System.out.println(url.replaceAll("%(\\S*)%", simpleDateFormat.format(Calendar.getInstance().getTime())));
+//		}
+//	
 //		String result=send(url);
 //		
 //		System.out.println(result);

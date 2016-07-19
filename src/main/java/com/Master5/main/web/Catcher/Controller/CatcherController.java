@@ -62,7 +62,7 @@ public class CatcherController {
 	@RequestMapping(value = "work")
 	public String work(String[] urls,Date startDate,Date endDate) {
 		
-		catcherService.catcher(urls,startDate);
+		catcherService.catcherTest(urls,startDate);
 		return "catcher/listUrlsInfo";
 	}
 	
