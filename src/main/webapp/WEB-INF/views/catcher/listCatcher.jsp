@@ -7,7 +7,7 @@
 <html lang="zh-cn">
 <head>
 <META HTTP-EQUIV="pragma" CONTENT="no-cache">
-<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no -cache, must-revalidate">
 <META HTTP-EQUIV="expires" CONTENT="Wed, 26 Feb 1997 08:21:57 GMT">
 
 <title>主页</title>
