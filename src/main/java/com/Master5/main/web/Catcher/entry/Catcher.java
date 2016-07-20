@@ -115,4 +115,10 @@ public class Catcher {
 		this.urlId = urlId;
 	}
 
+	@Override
+	public String toString() {
+		return "Catcher [id=" + id + ", content=" + content + ", title=" + title + ", time=" + time + ", creatTime="
+				+ creatTime + ", baseInfo=" + baseInfo + ", urlId=" + urlId + ", state=" + state + ", url=" + url + "]";
+	}
+
 }

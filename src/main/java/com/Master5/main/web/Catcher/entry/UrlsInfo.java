@@ -137,4 +137,12 @@ public class UrlsInfo {
 		this.type = type;
 	}
 
+	@Override
+	public String toString() {
+		return "UrlsInfo [id=" + id + ", urls=" + urls + ", name=" + name + ", keyWord=" + keyWord + ", careatTime="
+				+ careatTime + ", type=" + type + ", state=" + state + ", titlePattern=" + titlePattern
+				+ ", timePattern=" + timePattern + ", urlPattern=" + urlPattern + ", otherPattern=" + otherPattern
+				+ ", contentPattern=" + contentPattern + "]";
+	}
+
 }

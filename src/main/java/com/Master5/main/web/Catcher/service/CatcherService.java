@@ -33,7 +33,6 @@ import com.Master5.main.web.Catcher.dao.UrlsInfoDao;
 import com.Master5.main.web.Catcher.entry.Catcher;
 import com.Master5.main.web.Catcher.entry.UrlsInfo;
 
-
 @Service
 public class CatcherService {
 
@@ -69,7 +68,9 @@ public class CatcherService {
 	Pattern titlePatten = Pattern.compile("<\\s*?title\\s*?>([\\s\\S]*?)</\\s*?title\\s*?>");
 	Pattern bodyPatten = Pattern.compile("<\\s*?body\\s*?>([\\s\\S]*?)</\\s*?body\\s*?>");
 
-	public void catcherTest(String[] urlsList, Date date) {
+	public void catcherWork(String[] urlsList, Date date) {
+
+		catcherDao.deleteAll();
 
 		Document htmlDoc;
 
@@ -81,8 +82,10 @@ public class CatcherService {
 
 			try {
 				urls = saxUrlForDate(urls, date);
-				htmlDoc = Jsoup.connect(urls).
-						userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31").get();;
+				htmlDoc = Jsoup.connect(urls)
+						.userAgent(
+								"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31")
+						.get();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 				continue;
@@ -105,13 +108,14 @@ public class CatcherService {
 
 				try {
 					Document childDoc = Jsoup.connect(childUrl)
-							.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31")
+							.userAgent(
+									"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31")
 							.get();
 					Catcher catcher = new Catcher();
-					catcher.setContent(
-							childDoc.select(StringUtils.isEmpty(contentPattern) ? "body" : StringEscapeUtils.unescapeHtml(contentPattern)).text());
-					catcher.setTitle(
-							childDoc.select(StringUtils.isEmpty(contentPattern) ? "title" : StringEscapeUtils.unescapeHtml(titlePattern)).text());
+					catcher.setContent(childDoc.select(StringUtils.isEmpty(contentPattern) ? "body"
+							: StringEscapeUtils.unescapeHtml(contentPattern)).text());
+					catcher.setTitle(childDoc.select(StringUtils.isEmpty(contentPattern) ? "title"
+							: StringEscapeUtils.unescapeHtml(titlePattern)).text());
 					catcher.setCreatTime(Calendar.getInstance().getTime());
 					catcher.setBaseInfo(StringEscapeUtils.escapeHtml(childDoc.html()));
 					catcher.setUrlId(urlsInfo.getId());
@@ -146,5 +150,62 @@ public class CatcherService {
 		return urls;
 	}
 
+	public Catcher testCatcher(int id, Date date) {
+
+		Document htmlDoc = null;
+
+		UrlsInfo urlsInfo = urlsInfoDao.findOne(id);
+		
+		String urls = urlsInfo.getUrls();
+
+		try {
+			urls = saxUrlForDate(urls, date);
+			htmlDoc = Jsoup.connect(urls)
+					.userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31")
+					.get();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			System.out.println("失败了");
+		}
+
+		String titlePattern = urlsInfo.getTitlePattern();
+		String contentPattern = urlsInfo.getContentPattern();
+		
+		Elements areas = htmlDoc.select("area");
+
+		for (Element element : areas) {
+
+			String childUrl = element.attr("href");
+
+			if (!childUrl.startsWith("http://") && !childUrl.startsWith("https://")) {
+				childUrl = urls.substring(0, urls.lastIndexOf("/") + 1) + childUrl;
+			}
+
+			try {
+				Document childDoc = Jsoup.connect(childUrl)
+						.userAgent(
+								"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31")
+						.get();
+				Catcher catcher = new Catcher();
+				catcher.setContent(childDoc.select(
+						StringUtils.isEmpty(contentPattern) ? "body" : StringEscapeUtils.unescapeHtml(contentPattern))
+						.text());
+				catcher.setTitle(childDoc.select(
+						StringUtils.isEmpty(contentPattern) ? "title" : StringEscapeUtils.unescapeHtml(titlePattern))
+						.text());
+				catcher.setTime(date);
+				catcher.setUrl(childUrl);
+
+				return catcher;
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				continue;
+			}
+
+		}
+
+		return null;
+	}
 
 }
