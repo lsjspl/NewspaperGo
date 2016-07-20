@@ -27,15 +27,12 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.HtmlUtils;
 
 import com.Master5.main.web.Catcher.dao.CatcherDao;
 import com.Master5.main.web.Catcher.dao.UrlsInfoDao;
 import com.Master5.main.web.Catcher.entry.Catcher;
 import com.Master5.main.web.Catcher.entry.UrlsInfo;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
-import javafx.scene.web.HTMLEditor;
 
 @Service
 public class CatcherService {
