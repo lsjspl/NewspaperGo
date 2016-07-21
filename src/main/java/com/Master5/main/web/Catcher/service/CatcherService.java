@@ -2,11 +2,14 @@ package com.Master5.main.web.Catcher.service;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,7 +37,6 @@ public class CatcherService {
 
 	@Autowired
 	UrlsInfoDao urlsInfoDao;
-	
 
 	public List<UrlsInfo> queryUrlsInfo() {
 
@@ -56,10 +58,20 @@ public class CatcherService {
 	public List<Catcher> queryCatcher() {
 		return catcherDao.findAll();
 	}
+	
+	public void catcherWork(String[] urls, Date startDate ,Date endDate) {
+		catcherDao.deleteAll();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(startDate);
+
+		while (calendar.getTimeInMillis() < endDate.getTime()) {
+			catcherWork(urls, calendar.getTime());
+			calendar.add(Calendar.DAY_OF_MONTH, 1);
+		}
+	}
 
 	public void catcherWork(String[] urlsList, Date date) {
 
-		catcherDao.deleteAll();
 
 		Document htmlDoc;
 
@@ -76,7 +88,7 @@ public class CatcherService {
 								"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31")
 						.get();
 			} catch (Exception e1) {
-				e1.printStackTrace();
+				System.out.println("解析首页失败："+urls);
 				continue;
 			}
 
@@ -84,6 +96,11 @@ public class CatcherService {
 			String contentPattern = urlsInfo.getContentPattern();
 
 			Elements areas = htmlDoc.select("area");
+			
+			if(areas.size()==0){
+				System.out.println("没有找到相关的信息");
+				return;
+			}
 
 			for (Element element : areas) {
 
@@ -109,9 +126,9 @@ public class CatcherService {
 					catcher.setTime(date);
 					catcher.setUrl(childUrl);
 					catcherDao.saveAndFlush(catcher);
-
+					System.out.println("解析并保存成功："+childUrl);
 				} catch (IOException e) {
-					e.printStackTrace();
+					System.out.println("解析内页失败："+urls);
 					continue;
 				}
 
@@ -152,6 +169,7 @@ public class CatcherService {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			System.out.println("失败了");
+			return null;
 		}
 
 		String titlePattern = urlsInfo.getTitlePattern();
@@ -185,7 +203,7 @@ public class CatcherService {
 				return catcher;
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				System.out.println("爬取失败"+childUrl+"");
 				continue;
 			}
 
@@ -194,17 +212,82 @@ public class CatcherService {
 		return null;
 	}
 
-	public List<Object[]> total() {
-		
-		List<UrlsInfo> urlsInfos=urlsInfoDao.findByState(0);
-		
-		Map<Integer,UrlsInfo> cacheUrlsInfo=new HashMap<>();
-		
-		for(UrlsInfo urlsInfo:urlsInfos){
-			cacheUrlsInfo.put(urlsInfo.getId(), urlsInfo);
+	public List<Map<String, Object>> total() {
+
+		List<Object[]> total = catcherDao.queryTotal();
+
+		List<Map<String, Object>> result = new ArrayList<>();
+
+		Map<String, Map<String, Object>> totalCache = new HashMap<>();
+		Map<String,Set<Long>> dayCache=new HashMap<>();
+		// urlsinfo.keyWord,urlsinfo.name,,urlsinfo.type
+		// catcher.url,catcher.title,catcher.content,catcher.time,catcher.state
+		int index;
+		for (Object[] data : total) {
+			index = 0;
+			int id=(Integer) data[index++];
+			String keyWord = (String) data[index++];
+			String name = (String) data[index++];
+			int type = (Integer) data[index++];
+			String url = (String) data[index++];
+			String title = (String) data[index++];
+			String content = (String) data[index++];
+			Date time = (Date) data[index++];
+			int state = (Integer) data[index++];
+			String key = keyWord + "," + name;
+
+			boolean isWeek = false;
+			boolean isVip = type == 1;
+
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(time);
+			if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
+					|| cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+				isWeek = true;
+			}
+			
+			if(!dayCache.containsKey(key)){
+				dayCache.put(key, new HashSet<Long>());
+			}
+			dayCache.get(key).add(time.getTime());
+			
+			if (totalCache.containsKey(key)) {
+
+				Map<String, Object> tmp = totalCache.get(key);
+				tmp.put("name", name);
+				tmp.put("keyWord", keyWord);
+				((List<String>) tmp.get("url")).add(url);
+				((List<Date>) tmp.get("time")).add(time);
+				((List<Integer>) tmp.get("id")).add(id);
+				tmp.put("count", (Integer) tmp.get("count") + 1);
+				tmp.put("weekCount", (Integer) tmp.get("weekCount") + (isWeek ? 1 : 0));
+				tmp.put("vipCount", (Integer) tmp.get("vipCount") + (isVip ? 1 : 0));
+				tmp.put("day", dayCache.get(key).size());
+			} else {
+				Map<String, Object> tmp = new HashMap<>();
+				tmp.put("name", name);
+				tmp.put("keyWord", keyWord);
+				tmp.put("url", new ArrayList<String>());
+				tmp.put("time", new ArrayList<Date>());
+				tmp.put("id", new ArrayList<Integer>());
+				((List<String>) tmp.get("url")).add(url);
+				((List<Date>) tmp.get("time")).add(time);
+				((List<Integer>) tmp.get("id")).add(id);
+				tmp.put("count", 1);
+				tmp.put("day", dayCache.get(key).size());
+				tmp.put("weekCount", isWeek ? 1 : 0);
+				tmp.put("vipCount", isVip ? 1 : 0);
+				result.add(tmp);
+				totalCache.put(key, tmp);
+			}
+
 		}
 
-		return catcherDao.queryTotal();
+		return result;
+	}
+	
+	public void deleteCatcherById(int id){
+		catcherDao.delete(id);
 	}
 
 }

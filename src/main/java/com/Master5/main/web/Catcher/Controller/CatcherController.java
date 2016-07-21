@@ -61,21 +61,13 @@ public class CatcherController {
 	@RequestMapping(value = "updateUrlsInfo", method = RequestMethod.POST)
 	public String updateUrlsInfo(UrlsInfo urlsInfo) {
 		catcherService.saveUrlsInfo(urlsInfo);
-		return "catcher/listUrlsInfo";
+		return "redirect:listUrlsInfo";
 	}
 
 	@RequestMapping(value = "work")
 	public String work(String[] urls, Date startDate, Date endDate) {
-
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(startDate);
-
-		while (calendar.getTimeInMillis() < endDate.getTime()) {
-			calendar.add(Calendar.DAY_OF_MONTH, 1);
-			catcherService.catcherWork(urls, startDate);
-		}
-
-		return "catcher/listUrlsInfo";
+		catcherService.catcherWork(urls, startDate, endDate);
+		return "redirect:listUrlsInfo";
 	}
 
 	@RequestMapping(value = "testCatcher")
@@ -93,9 +85,14 @@ public class CatcherController {
 	}
 
 	@RequestMapping(value = "total")
-	@ResponseBody
-	public List<Object[]> total(Model model) {
-		return catcherService.total();
+	public String total(Model model) {
+		model.addAttribute("list", catcherService.total());
+		return "catcher/total";
 	}
 
+	@RequestMapping(value = "deleteCatcher/{id}")
+	public String deleteCatcher(@PathVariable int id) {
+		catcherService.deleteCatcherById(id);
+		return "redirect:/catcher/total";
+	}
 }

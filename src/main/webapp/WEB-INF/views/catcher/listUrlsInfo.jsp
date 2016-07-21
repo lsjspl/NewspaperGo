@@ -14,7 +14,7 @@
 <title>Newspaper Go</title>
 
 <script>
-var webSocket = new WebSocket('ws://'+window.location.host+'${ctx}/websocket/websocket');
+/* var webSocket = new WebSocket('ws://'+window.location.host+'${ctx}/websocket/websocket');
 
 webSocket.onerror = function(event) {
 	 alert(event.data);
@@ -37,7 +37,7 @@ function start() {
 function close() {
 	  webSocket.close();
 }
-
+ */
 $(function(){
 		$("#testCatcher").click(function(){
 			$.ajax({
@@ -62,6 +62,8 @@ $(function(){
 		format: 'Y-m-d',
 		maxYear: '2020'
 	});
+	
+
 });
 
 </script>
