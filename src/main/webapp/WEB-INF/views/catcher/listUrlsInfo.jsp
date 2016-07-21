@@ -75,7 +75,6 @@ $(function(){
 		<div class="panel-heading">基础信息维护</div>
 		<div class="panel-body">
 		  <div>
-    <input type="submit" value="Start" onclick="start()" />
   </div>
   <div id="messages"></div>
 		<form action="work" method="post">
