@@ -11,7 +11,7 @@
 <META HTTP-EQUIV="expires" CONTENT="Wed, 26 Feb 1997 08:21:57 GMT">
 <link rel="stylesheet"  href="${ctx}/resources/ui/js/time/datedropper.css">
 <script src="${ctx}/resources/ui/js/time/datedropper.min.js"></script>
-<title>主页</title>
+<title>Newspaper Go</title>
 
 <script>
 var webSocket = new WebSocket('ws://'+window.location.host+'${ctx}/websocket/websocket');

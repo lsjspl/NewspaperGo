@@ -27,7 +27,9 @@ public class MyServerEndpoint {
 	@OnMessage
 	public void inMessage(String message) {
 		
-		send("哈哈 搞毛："+message);
+		for(int i=0;i<50;i++){
+			send("哈哈 搞毛："+message);
+		}
 		sysLogger.info("*** WebSocket Received from sessionId " + this.session.getId() + ": " + message);
 	}
 
