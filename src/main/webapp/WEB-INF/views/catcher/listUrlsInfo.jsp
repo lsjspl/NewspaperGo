@@ -56,6 +56,12 @@ $(function(){
 		format: 'Y-m-d',
 		maxYear: '2020'
 	});
+	
+	$("#endDate").dateDropper({
+		animate: true,
+		format: 'Y-m-d',
+		maxYear: '2020'
+	});
 });
 
 </script>
@@ -72,6 +78,7 @@ $(function(){
   <div id="messages"></div>
 		<form action="work" method="post">
 			从 <input type="text" class="input" name="startDate" id="startDate"> 到
+			<input type="text" class="input" name="endDate" id="endDate">
 				<button type="submit" >开始爬取</button>
 		</form>
 		</div>

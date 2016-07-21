@@ -66,7 +66,15 @@ public class CatcherController {
 
 	@RequestMapping(value = "work")
 	public String work(String[] urls, Date startDate, Date endDate) {
-		catcherService.catcherWork(urls, startDate);
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(startDate);
+
+		while (calendar.getTimeInMillis() < endDate.getTime()) {
+			calendar.add(Calendar.DAY_OF_MONTH, 1);
+			catcherService.catcherWork(urls, startDate);
+		}
+
 		return "catcher/listUrlsInfo";
 	}
 
@@ -75,7 +83,7 @@ public class CatcherController {
 	public Catcher testCatcher(int id) throws ParseException {
 
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		return catcherService.testCatcher(id,simpleDateFormat.parse("2016-07-18"));
+		return catcherService.testCatcher(id, simpleDateFormat.parse("2016-07-18"));
 	}
 
 	@RequestMapping(value = { "listCatcher" })
@@ -83,8 +91,8 @@ public class CatcherController {
 		model.addAttribute("list", catcherService.queryCatcher());
 		return "catcher/listCatcher";
 	}
-	
-	@RequestMapping(value = "total" )
+
+	@RequestMapping(value = "total")
 	@ResponseBody
 	public List<Object[]> total(Model model) {
 		return catcherService.total();
