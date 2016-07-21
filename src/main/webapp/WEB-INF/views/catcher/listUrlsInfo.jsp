@@ -88,10 +88,7 @@ $(function(){
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>网址</th>
-						<th>媒体名称</th>
-						<th>关键词</th>
-						<th>媒体类型</th>
+						<th>信息</th>
 						<th>状态</th>
 						<th>创建时间</th>
 						<th>匹配参数</th>
@@ -103,18 +100,24 @@ $(function(){
 					<c:forEach items="${list}" var="list">
 						<tr>
 							<td>${list.id}</td>
-
-							<td>${list.urls}</td>
-							<td>${list.name}</td>
-							<td>${list.keyWord}</td>
-							<td><c:choose>
+							<td>
+								<div>媒体名称:${list.name}</div>
+								<div>关键词 :${list.keyWord}</div>
+								<div>媒体类型 :
+								<c:choose>
 									<c:when test="${list.type ==0}">地方媒体</c:when>
 									<c:when test="${list.type ==1}">中央媒体</c:when>
-								</c:choose></td>
-							<td><c:choose>
+								</c:choose>
+								</div>
+								地址:<div style="width: 15px">${list.urls}</div>
+							</td>
+							<td>
+								<c:choose>
 									<c:when test="${list.state ==0}">爬取</c:when>
 									<c:when test="${list.state ==1}">不爬取</c:when>
-								</c:choose></td>
+								</c:choose>
+								
+							</td>
 							<td>${list.careatTime}</td>
 							 <td>
 							 		<div>标题：${list.titlePattern}</div>
