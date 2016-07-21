@@ -34,7 +34,23 @@ function start() {
   return false;
 }
 
+function close() {
+	  webSocket.close();
+}
+
 $(function(){
+		$("#testCatcher").click(function(){
+			$.ajax({
+				url:"../testCatcher?id="+$("#id").val(),
+				type : "post",
+				data : "",
+				dataType : 'json',
+				success:function(data,status){
+					$("#testResult").html(JSON.stringify(data));
+				}
+			});
+		});
+		
 	$("#startDate").dateDropper({
 		animate: true,
 		format: 'Y-m-d',

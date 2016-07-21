@@ -11,38 +11,49 @@ import javax.websocket.server.ServerEndpoint;
 
 import org.apache.log4j.Logger;
 
-@ServerEndpoint(value = "/websocket/{user}")
+@ServerEndpoint(value = "/websocket/{param}")
 public class MyServerEndpoint {
 
 	private Session session;
-	private static final Logger sysLogger = Logger.getLogger("sysLog");
+	private static final Logger logger = Logger.getLogger("sysLog");
 
+	int i=0;
 	@OnOpen
-	public void open(Session session, @PathParam(value = "user") String user) {
+	public void open(Session session, @PathParam(value = "param") String param) {
 		this.session = session;
 
-		sysLogger.info("*** WebSocket opened from sessionId " + session.getId());
+		logger.info("*** WebSocket opened from sessionId " + session.getId());
 	}
 
 	@OnMessage
 	public void inMessage(String message) {
-		
+		i++;
 		for(int i=0;i<50;i++){
-			send("哈哈 搞毛："+message);
+			send("哈哈 搞毛："+message+i);
 		}
-		sysLogger.info("*** WebSocket Received from sessionId " + this.session.getId() + ": " + message);
+		close();
+		logger.info("*** WebSocket Received from sessionId " + this.session.getId() + ": " + message);
 	}
 
 	@OnClose
 	public void end() {
-		sysLogger.info("*** WebSocket closed from sessionId " + this.session.getId());
+		logger.info("*** WebSocket closed from sessionId " + this.session.getId());
 	}
 
-	public void send(String msg) {
+	private void send(String msg) {
 		try {
 			session.getBasicRemote().sendText(msg);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	private void close() {
+		try {
+			session.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			logger.info("关闭失败");
 		}
 	}
 }
