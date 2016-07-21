@@ -74,9 +74,7 @@ public class CatcherController {
 	public Catcher testCatcher(int id) throws ParseException {
 
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		
 		return catcherService.testCatcher(id,simpleDateFormat.parse("2016-07-18"));
-
 	}
 
 	@RequestMapping(value = { "listCatcher" })
