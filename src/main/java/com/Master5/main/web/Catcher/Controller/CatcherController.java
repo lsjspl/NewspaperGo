@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.Master5.main.utils.Tools;
 import com.Master5.main.web.Catcher.entry.Catcher;
 import com.Master5.main.web.Catcher.entry.UrlsInfo;
 import com.Master5.main.web.Catcher.service.CatcherService;
@@ -81,6 +82,12 @@ public class CatcherController {
 	public String listCatcher(Model model) {
 		model.addAttribute("list", catcherService.queryCatcher());
 		return "catcher/listCatcher";
+	}
+	
+	@RequestMapping(value = "total" )
+	@ResponseBody
+	public List<Object[]> total(Model model) {
+		return catcherService.total();
 	}
 
 }
