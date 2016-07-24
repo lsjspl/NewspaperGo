@@ -19,7 +19,7 @@ import org.hibernate.annotations.Type;
 public class Catcher {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Integer id;
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
 	@Type(type = "text")
@@ -69,7 +69,7 @@ public class Catcher {
 		this.state = state;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 

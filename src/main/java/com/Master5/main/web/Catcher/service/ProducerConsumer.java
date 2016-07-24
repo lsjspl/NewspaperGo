@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.Master5.main.web.Catcher.entry.CatcherTask;
 
+@Service
 public class ProducerConsumer {
 	
 	@Autowired
@@ -44,6 +45,7 @@ public class ProducerConsumer {
 			while (true) {
 				try {
 					task= (CatcherTask) queue.take();
+					System.out.println(catcherService);
 					catcherService.catcherWork(null,task.getStartDate(),task.getEndDate(),task);
 				} catch (Exception e) {
 					e.printStackTrace();

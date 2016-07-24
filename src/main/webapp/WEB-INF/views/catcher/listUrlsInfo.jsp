@@ -120,7 +120,7 @@ $(function(){
 								</c:choose>
 								
 							</td>
-							<td>${list.careatTime}</td>
+							<td>${list.creatTime}</td>
 							 <td>
 							 		<div>标题：${list.titlePattern}</div>
 							 		<div>内容：${list.contentPattern}</div>

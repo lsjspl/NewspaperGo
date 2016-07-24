@@ -69,7 +69,7 @@ public class CatcherController {
 	@RequestMapping(value = "addTask")
 	public String addTask(CatcherTask task) {
 		catcherService.saveCatcherTask(task);
-		return "redirect:listUrlsInfo";
+		return "redirect:listTask";
 	}
 	
 	@RequestMapping(value = "listTask")

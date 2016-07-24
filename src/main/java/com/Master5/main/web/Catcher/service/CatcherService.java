@@ -56,7 +56,7 @@ public class CatcherService {
 		urlsInfo.setTitlePattern(StringEscapeUtils.escapeHtml(urlsInfo.getTitlePattern()));
 		urlsInfo.setTimePattern(StringEscapeUtils.escapeHtml(urlsInfo.getTimePattern()));
 		urlsInfo.setContentPattern(StringEscapeUtils.escapeHtml(urlsInfo.getContentPattern()));
-		urlsInfo.setCareatTime(Calendar.getInstance().getTime());
+		urlsInfo.setCreatTime(Calendar.getInstance().getTime());
 		return urlsInfoDao.saveAndFlush(urlsInfo);
 	}
 

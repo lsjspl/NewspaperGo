@@ -24,7 +24,7 @@ public class UrlsInfo {
 	
 	private String keyWord;
 
-	private Date careatTime;
+	private Date creatTime;
 
 	private int type;
 	
@@ -121,13 +121,6 @@ public class UrlsInfo {
 		this.name = name;
 	}
 
-	public Date getCareatTime() {
-		return careatTime;
-	}
-
-	public void setCareatTime(Date careatTime) {
-		this.careatTime = careatTime;
-	}
 
 	public int getType() {
 		return type;
@@ -137,12 +130,13 @@ public class UrlsInfo {
 		this.type = type;
 	}
 
-	@Override
-	public String toString() {
-		return "UrlsInfo [id=" + id + ", urls=" + urls + ", name=" + name + ", keyWord=" + keyWord + ", careatTime="
-				+ careatTime + ", type=" + type + ", state=" + state + ", titlePattern=" + titlePattern
-				+ ", timePattern=" + timePattern + ", urlPattern=" + urlPattern + ", otherPattern=" + otherPattern
-				+ ", contentPattern=" + contentPattern + "]";
+	public Date getCreatTime() {
+		return creatTime;
 	}
+
+	public void setCreatTime(Date creatTime) {
+		this.creatTime = creatTime;
+	}
+
 
 }
