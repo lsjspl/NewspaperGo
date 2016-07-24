@@ -90,10 +90,11 @@ $(function(){
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>信息</th>
+						<th>任务名称</th>
+						<th>开始时间</th>
+						<th>结束时间</th>
 						<th>状态</th>
 						<th>创建时间</th>
-						<th>匹配参数</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -102,36 +103,28 @@ $(function(){
 					<c:forEach items="${list}" var="list">
 						<tr>
 							<td>${list.id}</td>
-							<td>
-								<div>媒体名称:${list.name}</div>
-								<div>关键词 :${list.keyWord}</div>
-								<div>媒体类型 :
-								<c:choose>
-									<c:when test="${list.type ==0}">地方媒体</c:when>
-									<c:when test="${list.type ==1}">中央媒体</c:when>
-								</c:choose>
-								</div>
-								地址:<div style="width: 15px">${list.urls}</div>
-							</td>
+							<td>${list.name}</td>
+							<td>${list.startDate}</td>
+							<td>${list.endDate}</td>
 							<td>
 								<c:choose>
-									<c:when test="${list.state ==0}">爬取</c:when>
-									<c:when test="${list.state ==1}">不爬取</c:when>
+									<c:when test="${list.state ==0}">爬取中</c:when>
+									<c:when test="${list.state ==1}">爬取完成</c:when>
+									<c:when test="${list.state ==2}">任务终止</c:when>
 								</c:choose>
 								
 							</td>
 							<td>${list.careatTime}</td>
-							 <td>
-							 		<div>标题：${list.titlePattern}</div>
-							 		<div>内容：${list.contentPattern}</div>
-							 </td>
 							<td>
 								<div class="list-group">
-									<a href="${ctx}/order/delOrders/${list.id}" class="list-group-item list-group-item-danger">
-										 <span class="glyphicon glyphicon-trash"> 删除</span>
-									</a> <a href="${ctx}/catcher/updateUrlsInfo/${list.id}" class="list-group-item list-group-item-primary"> 
-										<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"> 编辑</span>
+									<a href="#" class="list-group-item list-group-item-danger">
+										 <span class="glyphicon glyphicon-trash"> 停止</span>
 									</a>
+									<c:if test="${list.state ==1}">
+									 <a href="${ctx}/catcher/total/${list.id}" class="list-group-item list-group-item-primary"> 
+										<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"> 统计信息</span>
+									</a>
+									</c:if>
 								</div>
 							</td>
 						</tr>

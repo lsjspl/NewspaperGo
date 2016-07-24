@@ -29,8 +29,8 @@
 		<ul class="list-unstyled">
 			<li><a href="${ctx}/catcher/listUrlsInfo"><span class="glyphicon glyphicon-user"></span> 基础信息</a></li>
 			<li><a href="${ctx}/catcher/addUrlsInfo"><span class="glyphicon glyphicon-link"></span> 增加基础信息</a></li>
-			<li><a href="${ctx}/catcher/listCatcher"><span class="glyphicon glyphicon-tag"></span> 爬取详单</a></li>
-			<li><a href="${ctx}/catcher/total"><span class="glyphicon glyphicon-tag"></span> 统计数据</a></li>
+			<li><a href="${ctx}/catcher/listTask"><span class="glyphicon glyphicon-tag"></span> 任务列表</a></li>
+			<li><a href="${ctx}/catcher/listCatcher"><span class="glyphicon glyphicon-tag"></span> 爬取详单 不要点 不要点 不要点</a></li>
 		</ul>
 	</div>
 	

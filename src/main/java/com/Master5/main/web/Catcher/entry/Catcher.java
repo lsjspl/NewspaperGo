@@ -41,7 +41,17 @@ public class Catcher {
 
 	private int state;
 	
+	private int taskId;
+	
 	private String url;
+
+	public int getTaskId() {
+		return taskId;
+	}
+
+	public void setTaskId(int taskId) {
+		this.taskId = taskId;
+	}
 
 	public String getUrl() {
 		return url;
@@ -63,7 +73,7 @@ public class Catcher {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

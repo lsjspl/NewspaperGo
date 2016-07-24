@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.Master5.main.web.Catcher.entry.Catcher;
+import com.Master5.main.web.Catcher.entry.CatcherTask;
 import com.Master5.main.web.Catcher.entry.UrlsInfo;
 import com.Master5.main.web.Catcher.service.CatcherService;
 
@@ -64,10 +65,17 @@ public class CatcherController {
 		return "redirect:listUrlsInfo";
 	}
 
-	@RequestMapping(value = "work")
-	public String work(String[] urls, Date startDate, Date endDate) {
-		catcherService.catcherWork(urls, startDate, endDate);
+	
+	@RequestMapping(value = "addTask")
+	public String addTask(CatcherTask task) {
+		catcherService.saveCatcherTask(task);
 		return "redirect:listUrlsInfo";
+	}
+	
+	@RequestMapping(value = "listTask")
+	public String addTask(Model model) {
+		model.addAttribute("list", catcherService.queryTask());
+		return "/catcher/listTask";
 	}
 
 	@RequestMapping(value = "testCatcher")
@@ -84,9 +92,9 @@ public class CatcherController {
 		return "catcher/listCatcher";
 	}
 
-	@RequestMapping(value = "total")
-	public String total(Model model) {
-		model.addAttribute("list", catcherService.total());
+	@RequestMapping(value = "total/{taskId}")
+	public String total(Model model,@PathVariable int taskId) {
+		model.addAttribute("list", catcherService.total(taskId));
 		return "catcher/total";
 	}
 
