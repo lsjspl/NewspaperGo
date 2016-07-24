@@ -90,11 +90,8 @@ $(function(){
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>任务名称</th>
-						<th>开始时间</th>
-						<th>结束时间</th>
-						<th>状态</th>
-						<th>创建时间</th>
+						<th>任务链接</th>
+						<th>任务结果</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -103,14 +100,14 @@ $(function(){
 					<c:forEach items="${list}" var="list">
 						<tr>
 							<td>${list.id}</td>
-							<td>${list.name}</td>
-							<td>${list.startDate}</td>
-							<td>${list.endDate}</td>
+							<td><a href="${list.url}">${list.url}</a></td>
 							<td>
+							${list.type ==remarks}
 								<c:choose>
-									<c:when test="${list.state ==0}">爬取中</c:when>
-									<c:when test="${list.state ==1}">爬取完成</c:when>
-									<c:when test="${list.state ==2}">任务终止</c:when>
+									<c:when test="${list.type ==0}">开始</c:when>
+									<c:when test="${list.type ==1}">完成</c:when>
+									<c:when test="${list.type ==2}">成功</c:when>
+									<c:when test="${list.type ==3}">失败</c:when>
 								</c:choose>
 								
 							</td>

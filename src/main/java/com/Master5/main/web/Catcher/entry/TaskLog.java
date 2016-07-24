@@ -11,7 +11,7 @@ import javax.persistence.Table;
 public class TaskLog {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Integer id;
 
 	private int state;
 
@@ -24,12 +24,23 @@ public class TaskLog {
 	private int taskId;
 	
 	private int catcherId;
+	
+	private String remarks;
 
-	public int getId() {
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

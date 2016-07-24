@@ -25,12 +25,16 @@ import org.springframework.stereotype.Service;
 import com.Master5.main.web.Catcher.dao.CatcherDao;
 import com.Master5.main.web.Catcher.dao.UrlsInfoDao;
 import com.Master5.main.web.Catcher.dao.CatcherTaskDao;
+import com.Master5.main.web.Catcher.dao.TaskLogDao;
 import com.Master5.main.web.Catcher.entry.Catcher;
 import com.Master5.main.web.Catcher.entry.CatcherTask;
+import com.Master5.main.web.Catcher.entry.TaskLog;
 import com.Master5.main.web.Catcher.entry.UrlsInfo;
 
 @Service
 public class CatcherService {
+
+	
 
 	Pattern timePattern = Pattern.compile("%(\\S*)%");
 
@@ -42,6 +46,33 @@ public class CatcherService {
 	
 	@Autowired
 	CatcherTaskDao catcherTaskDao;
+	
+	@Autowired
+	TaskLogDao taskLogDao;
+	
+	private static final int TASK_START = 0;
+	private static final int TASK_FINISH=1;
+	private static final  int TASK_SUCCESS_MAIN=2;
+	private static final  int TASK_FAILED_MAIN=3;
+
+
+	
+	void addTaskLog(int type,int catcherId,int taskId,int urlsId,String url,String remarks){
+		TaskLog taskLog=new TaskLog();
+		taskLog.setCatcherId(catcherId);
+		taskLog.setState(0);
+		taskLog.setTaskId(taskId);
+		taskLog.setUrl(url);
+		taskLog.setUrlsId(urlsId);
+		taskLog.setType(type);
+		taskLog.setRemarks(remarks);;
+		taskLogDao.save(taskLog);
+	}
+	
+	public List<TaskLog> queryTaskLog(int type,int taskId) {
+
+		return taskLogDao.findByTypeAndTaskId(type, taskId);
+	}
 
 	public List<UrlsInfo> queryUrlsInfo() {
 
@@ -81,6 +112,8 @@ public class CatcherService {
 		List<UrlsInfo> UrlsInfoList = urlsInfoDao.findByState(0);
 
 		Catcher catcher = new Catcher();
+		
+		addTaskLog(TASK_START, 0, task.getId(), 0, "","任务开启："+task.getName());
 
 		for (UrlsInfo urlsInfo : UrlsInfoList) {
 
@@ -94,6 +127,7 @@ public class CatcherService {
 						.timeout(50000)
 						.get();
 			} catch (Exception e1) {
+				addTaskLog(TASK_FAILED_MAIN, 0, task.getId(), urlsInfo.getId(), urls,"首页");
 				System.out.println("解析首页失败：" + urls);
 				continue;
 			}
@@ -104,9 +138,12 @@ public class CatcherService {
 			Elements areas = htmlDoc.select("area");
 
 			if (areas.size() == 0) {
+				addTaskLog(TASK_FAILED_MAIN, 0, task.getId(), urlsInfo.getId(), urls,"首页");
 				System.out.println("没有找到相关的信息");
-				return;
+				continue;
 			}
+			
+			addTaskLog(TASK_SUCCESS_MAIN, 0, task.getId(), urlsInfo.getId(), urls,"首页");
 
 			for (Element element : areas) {
 
@@ -133,9 +170,13 @@ public class CatcherService {
 					catcher.setTime(date);
 					catcher.setUrl(childUrl);
 					catcher.setTaskId(task.getId());
-					catcherDao.saveAndFlush(catcher);
+					catcher=catcherDao.saveAndFlush(catcher);
+					
+					addTaskLog(TASK_SUCCESS_MAIN, catcher.getId(), task.getId(), urlsInfo.getId(), childUrl,"内页");
+					
 					System.out.println("解析并保存成功：" + childUrl);
 				} catch (IOException e) {
+					addTaskLog(TASK_FAILED_MAIN, 0, task.getId(), urlsInfo.getId(), childUrl,"内页");
 					System.out.println("解析内页失败：" + urls);
 					continue;
 				}
@@ -144,6 +185,7 @@ public class CatcherService {
 
 		}
 		
+		addTaskLog(TASK_FINISH, 0, task.getId(), 0, "","任务完成："+task.getName());
 		task.setState(1);
 		catcherTaskDao.saveAndFlush(task);
 	}

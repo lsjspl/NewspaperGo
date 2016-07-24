@@ -103,4 +103,10 @@ public class CatcherController {
 		catcherService.deleteCatcherById(id);
 		return "redirect:/catcher/total";
 	}
+	
+	@RequestMapping(value = "taskLog/{type}/{taskId}")
+	public String deleteCatcher(@PathVariable int type,@PathVariable int taskId) {
+		catcherService.queryTaskLog(type, taskId);
+		return "/catcher/taskLog";
+	}
 }
