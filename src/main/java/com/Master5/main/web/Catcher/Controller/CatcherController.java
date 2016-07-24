@@ -73,17 +73,17 @@ public class CatcherController {
 	}
 	
 	@RequestMapping(value = "listTask")
-	public String addTask(Model model) {
+	public String listTask(Model model) {
 		model.addAttribute("list", catcherService.queryTask());
 		return "/catcher/listTask";
 	}
 
 	@RequestMapping(value = "testCatcher")
 	@ResponseBody
-	public Catcher testCatcher(int id) throws ParseException {
+	public Catcher testCatcher(UrlsInfo urlsInfo) throws ParseException {
 
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		return catcherService.testCatcher(id, simpleDateFormat.parse("2016-07-18"));
+		return catcherService.testCatcher(urlsInfo, simpleDateFormat.parse("2016-07-18"));
 	}
 
 	@RequestMapping(value = { "listCatcher" })
@@ -105,8 +105,8 @@ public class CatcherController {
 	}
 	
 	@RequestMapping(value = "taskLog/{type}/{taskId}")
-	public String deleteCatcher(@PathVariable int type,@PathVariable int taskId) {
-		catcherService.queryTaskLog(type, taskId);
+	public String taskLog(Model model, @PathVariable int type,@PathVariable int taskId) {
+		model.addAttribute("list", catcherService.queryTaskLog(type, taskId));
 		return "/catcher/taskLog";
 	}
 }

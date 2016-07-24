@@ -34,8 +34,6 @@ import com.Master5.main.web.Catcher.entry.UrlsInfo;
 @Service
 public class CatcherService {
 
-	
-
 	Pattern timePattern = Pattern.compile("%(\\S*)%");
 
 	@Autowired
@@ -43,33 +41,32 @@ public class CatcherService {
 
 	@Autowired
 	UrlsInfoDao urlsInfoDao;
-	
+
 	@Autowired
 	CatcherTaskDao catcherTaskDao;
-	
+
 	@Autowired
 	TaskLogDao taskLogDao;
-	
+
 	private static final int TASK_START = 0;
-	private static final int TASK_FINISH=1;
-	private static final  int TASK_SUCCESS_MAIN=2;
-	private static final  int TASK_FAILED_MAIN=3;
+	private static final int TASK_FINISH = 1;
+	private static final int TASK_SUCCESS_MAIN = 2;
+	private static final int TASK_FAILED_MAIN = 3;
 
-
-	
-	void addTaskLog(int type,int catcherId,int taskId,int urlsId,String url,String remarks){
-		TaskLog taskLog=new TaskLog();
+	void addTaskLog(int type, int catcherId, int taskId, int urlsId, String url, String remarks) {
+		TaskLog taskLog = new TaskLog();
 		taskLog.setCatcherId(catcherId);
 		taskLog.setState(0);
 		taskLog.setTaskId(taskId);
 		taskLog.setUrl(url);
 		taskLog.setUrlsId(urlsId);
 		taskLog.setType(type);
-		taskLog.setRemarks(remarks);;
+		taskLog.setRemarks(remarks);
+		;
 		taskLogDao.save(taskLog);
 	}
-	
-	public List<TaskLog> queryTaskLog(int type,int taskId) {
+
+	public List<TaskLog> queryTaskLog(int type, int taskId) {
 
 		return taskLogDao.findByTypeAndTaskId(type, taskId);
 	}
@@ -85,7 +82,7 @@ public class CatcherService {
 
 	public UrlsInfo saveUrlsInfo(UrlsInfo urlsInfo) {
 		urlsInfo.setTitlePattern(StringEscapeUtils.escapeHtml(urlsInfo.getTitlePattern()));
-		urlsInfo.setTimePattern(StringEscapeUtils.escapeHtml(urlsInfo.getTimePattern()));
+		urlsInfo.setAreaPattern(StringEscapeUtils.escapeHtml(urlsInfo.getAreaPattern()));
 		urlsInfo.setContentPattern(StringEscapeUtils.escapeHtml(urlsInfo.getContentPattern()));
 		urlsInfo.setCreatTime(Calendar.getInstance().getTime());
 		return urlsInfoDao.saveAndFlush(urlsInfo);
@@ -95,25 +92,25 @@ public class CatcherService {
 		return catcherDao.findAll();
 	}
 
-	public void catcherWork(String[] urls, Date startDate, Date endDate ,CatcherTask task) {
+	public void catcherWork(String[] urls, Date startDate, Date endDate, CatcherTask task) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(startDate);
 
 		while (calendar.getTimeInMillis() < endDate.getTime()) {
-			catcherWork(urls, calendar.getTime(),task);
+			catcherWork(urls, calendar.getTime(), task);
 			calendar.add(Calendar.DAY_OF_MONTH, 1);
 		}
 	}
 
-	public void catcherWork(String[] urlsList, Date date,CatcherTask task) {
+	public void catcherWork(String[] urlsList, Date date, CatcherTask task) {
 
 		Document htmlDoc;
 
 		List<UrlsInfo> UrlsInfoList = urlsInfoDao.findByState(0);
 
 		Catcher catcher = new Catcher();
-		
-		addTaskLog(TASK_START, 0, task.getId(), 0, "","任务开启："+task.getName());
+
+		addTaskLog(TASK_START, 0, task.getId(), 0, "", "任务开启：" + task.getName());
 
 		for (UrlsInfo urlsInfo : UrlsInfoList) {
 
@@ -124,26 +121,26 @@ public class CatcherService {
 				htmlDoc = Jsoup.connect(urls)
 						.userAgent(
 								"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31")
-						.timeout(50000)
-						.get();
+						.timeout(50000).get();
 			} catch (Exception e1) {
-				addTaskLog(TASK_FAILED_MAIN, 0, task.getId(), urlsInfo.getId(), urls,"首页");
+				addTaskLog(TASK_FAILED_MAIN, 0, task.getId(), urlsInfo.getId(), urls, "首页");
 				System.out.println("解析首页失败：" + urls);
 				continue;
 			}
 
 			String titlePattern = urlsInfo.getTitlePattern();
 			String contentPattern = urlsInfo.getContentPattern();
+			String areaPattern = urlsInfo.getAreaPattern();
 
-			Elements areas = htmlDoc.select("area");
+			Elements areas = htmlDoc.select(StringUtils.isEmpty(areaPattern) ? "area" : areaPattern);
 
 			if (areas.size() == 0) {
-				addTaskLog(TASK_FAILED_MAIN, 0, task.getId(), urlsInfo.getId(), urls,"首页");
+				addTaskLog(TASK_FAILED_MAIN, 0, task.getId(), urlsInfo.getId(), urls, "首页");
 				System.out.println("没有找到相关的信息");
 				continue;
 			}
-			
-			addTaskLog(TASK_SUCCESS_MAIN, 0, task.getId(), urlsInfo.getId(), urls,"首页");
+
+			addTaskLog(TASK_SUCCESS_MAIN, 0, task.getId(), urlsInfo.getId(), urls, "首页");
 
 			for (Element element : areas) {
 
@@ -152,31 +149,31 @@ public class CatcherService {
 				if (!childUrl.startsWith("http://") && !childUrl.startsWith("https://")) {
 					childUrl = urls.substring(0, urls.lastIndexOf("/") + 1) + childUrl;
 				}
-
+				childUrl = childUrl.replace("?div=1", "").replace("?div=-1", "").replace("?div=0", "");
 				try {
 					Document childDoc = Jsoup.connect(childUrl)
 							.userAgent(
 									"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31")
-							.timeout(50000)
-							.get();
+							.timeout(50000).get();
 					catcher.setId(null);
 					catcher.setContent(childDoc.select(StringUtils.isEmpty(contentPattern) ? "body"
 							: StringEscapeUtils.unescapeHtml(contentPattern)).text());
-					catcher.setTitle(childDoc.select(StringUtils.isEmpty(contentPattern) ? "title"
-							: StringEscapeUtils.unescapeHtml(titlePattern)).text());
+					catcher.setTitle(childDoc.select(
+							StringUtils.isEmpty(titlePattern) ? "title" : StringEscapeUtils.unescapeHtml(titlePattern))
+							.text());
 					catcher.setCreatTime(Calendar.getInstance().getTime());
 					catcher.setBaseInfo(StringEscapeUtils.escapeHtml(childDoc.html()));
 					catcher.setUrlId(urlsInfo.getId());
 					catcher.setTime(date);
 					catcher.setUrl(childUrl);
 					catcher.setTaskId(task.getId());
-					catcher=catcherDao.saveAndFlush(catcher);
-					
-					addTaskLog(TASK_SUCCESS_MAIN, catcher.getId(), task.getId(), urlsInfo.getId(), childUrl,"内页");
-					
+					catcher = catcherDao.saveAndFlush(catcher);
+
+					addTaskLog(TASK_SUCCESS_MAIN, catcher.getId(), task.getId(), urlsInfo.getId(), childUrl, "内页");
+
 					System.out.println("解析并保存成功：" + childUrl);
 				} catch (IOException e) {
-					addTaskLog(TASK_FAILED_MAIN, 0, task.getId(), urlsInfo.getId(), childUrl,"内页");
+					addTaskLog(TASK_FAILED_MAIN, 0, task.getId(), urlsInfo.getId(), childUrl, "内页");
 					System.out.println("解析内页失败：" + urls);
 					continue;
 				}
@@ -184,8 +181,8 @@ public class CatcherService {
 			}
 
 		}
-		
-		addTaskLog(TASK_FINISH, 0, task.getId(), 0, "","任务完成："+task.getName());
+
+		addTaskLog(TASK_FINISH, 0, task.getId(), 0, "", "任务完成：" + task.getName());
 		task.setState(1);
 		catcherTaskDao.saveAndFlush(task);
 	}
@@ -205,11 +202,11 @@ public class CatcherService {
 		return urls;
 	}
 
-	public Catcher testCatcher(int id, Date date) {
+	public Catcher testCatcher(UrlsInfo urlsInfoTmp, Date date) {
 
 		Document htmlDoc = null;
 
-		UrlsInfo urlsInfo = urlsInfoDao.findOne(id);
+		UrlsInfo urlsInfo = urlsInfoDao.findOne(urlsInfoTmp.getId());
 
 		String urls = urlsInfo.getUrls();
 
@@ -218,17 +215,18 @@ public class CatcherService {
 			htmlDoc = Jsoup.connect(urls)
 					.userAgent(
 							"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31")
-					.get();
+					.timeout(50000).get();
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			System.out.println("失败了");
 			return null;
 		}
 
-		String titlePattern = urlsInfo.getTitlePattern();
-		String contentPattern = urlsInfo.getContentPattern();
+		String titlePattern = urlsInfoTmp.getTitlePattern();
+		String contentPattern = urlsInfoTmp.getContentPattern();
+		String areaPattern = urlsInfo.getAreaPattern();
 
-		Elements areas = htmlDoc.select("area");
+		Elements areas = htmlDoc.select(StringUtils.isEmpty(areaPattern) ? "area" : areaPattern);
 
 		for (Element element : areas) {
 
@@ -242,13 +240,14 @@ public class CatcherService {
 				Document childDoc = Jsoup.connect(childUrl)
 						.userAgent(
 								"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31")
-						.get();
+						.timeout(50000).get();
 				Catcher catcher = new Catcher();
 				catcher.setContent(childDoc.select(
 						StringUtils.isEmpty(contentPattern) ? "body" : StringEscapeUtils.unescapeHtml(contentPattern))
 						.text());
+
 				catcher.setTitle(childDoc.select(
-						StringUtils.isEmpty(contentPattern) ? "title" : StringEscapeUtils.unescapeHtml(titlePattern))
+						StringUtils.isEmpty(titlePattern) ? "title" : StringEscapeUtils.unescapeHtml(titlePattern))
 						.text());
 				catcher.setTime(date);
 				catcher.setUrl(childUrl);
@@ -256,6 +255,7 @@ public class CatcherService {
 				return catcher;
 
 			} catch (Exception e) {
+				e.printStackTrace();
 				System.out.println("爬取失败" + childUrl + "");
 				continue;
 			}
@@ -289,8 +289,8 @@ public class CatcherService {
 			int state = (Integer) data[index++];
 
 			for (String keyWord : keyWords) {
-				
-				if(!content.contains(keyWord)){
+
+				if (!content.contains(keyWord)) {
 					continue;
 				}
 
@@ -311,11 +311,11 @@ public class CatcherService {
 				}
 				dayCache.get(key).add(time.getTime());
 
-				if (totalCache.containsKey(key) ) {
+				if (totalCache.containsKey(key)) {
 
 					Map<String, Object> tmp = totalCache.get(key);
-					
-					if(((List<String>) tmp.get("url")).contains(url)){
+
+					if (((List<String>) tmp.get("url")).contains(url)) {
 						continue;
 					}
 					tmp.put("name", name);
@@ -361,13 +361,13 @@ public class CatcherService {
 
 		task.setCreatTime(Calendar.getInstance().getTime());
 		task.setState(0);
-		task= catcherTaskDao.saveAndFlush(task);
+		task = catcherTaskDao.saveAndFlush(task);
 		try {
 			ProducerConsumer.getInstance().put(task);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public List<CatcherTask> queryTask() {

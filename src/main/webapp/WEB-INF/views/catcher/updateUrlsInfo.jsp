@@ -17,12 +17,23 @@
 	$(function(){
 		$("#testCatcher").click(function(){
 			$.ajax({
-				url:"../testCatcher?id="+$("#id").val(),
+				url:"${ctx}/catcher/testCatcher",
 				type : "post",
-				data : "",
+				data : {
+					'id':$("#id").val(),
+					'contentPattern':$("#contentPattern").val(),
+					'titlePattern':$("#titlePattern").val(),
+					'areaPattern':$("#areaPattern").val()
+				},
 				dataType : 'json',
 				success:function(data,status){
-					$("#testResult").html(JSON.stringify(data));
+					$("#testResult").html(
+					
+							'<div>地址：<a href="'+data.url+'"    target="view_window">'+data.url+'</a></div>'+
+							'<div>标题：'+data.title+'</div>'+
+							'<div>内容：'+data.content+'</div>'
+					
+					);
 				}
 			});
 		});
@@ -94,6 +105,12 @@
 			   </div>
 			</div>
 			<div class="form-group">
+			   <label for="areaPattern"  class="col-lg-4 control-label">首页选择器</label>
+			   <div class="col-lg-8">
+			   <input type="text" class="form-control" name="areaPattern" id="areaPattern" placeholder="内容选择器"  value="${urlsInfo.areaPattern}"> 
+			   </div>
+			</div>
+			<div class="form-group">
 				<button id="enter" type="submit" class="btn btn-info pull-right">编辑</button>
 				<button type="button" id="testCatcher"  class="btn btn-info pull-right">测试</button>
 			</div>
@@ -103,7 +120,7 @@
 		
 		<div id="testResult" class="col-lg-6">
 		 
-		 哈哈哈
+		 
 		 </div>
 	</div>
 	</div>

@@ -21,7 +21,7 @@ public class Test {
 
 	public static void main(String[] args) throws IOException {
 
-		Document htmlDoc = Jsoup.connect("http://epaper.tianjinwe.com/tjrb/tjrb/2016-07/14/node_2.htm")
+		Document htmlDoc = Jsoup.connect("http://epaper.scdaily.cn/shtml/scrb/20160724/index.shtml")
 				.userAgent(
 						"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31")
 				.timeout(50000).get();
@@ -29,7 +29,7 @@ public class Test {
 		//
 		System.out.println(htmlDoc);
 
-		String ss = htmlDoc.select("font[color='#05006C']").text();
+		String ss = htmlDoc.select(".title_art").text();
 		//
 		System.out.println(ss);
 	}

@@ -32,7 +32,7 @@ public class UrlsInfo {
 	
 	private String titlePattern;
 	
-	private String timePattern;
+	private String areaPattern;
 	
 	private String urlPattern;
 	
@@ -57,12 +57,12 @@ public class UrlsInfo {
 		this.titlePattern = titlePattern;
 	}
 
-	public String getTimePattern() {
-		return StringEscapeUtils.escapeHtml(timePattern);
+	public String getAreaPattern() {
+		return areaPattern;
 	}
 
-	public void setTimePattern(String timePattern) {
-		this.timePattern = timePattern;
+	public void setAreaPattern(String areaPattern) {
+		this.areaPattern = areaPattern;
 	}
 
 	public String getUrlPattern() {

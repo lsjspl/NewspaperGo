@@ -77,7 +77,7 @@ $(function(){
 		  <div>
   </div>
   <div id="messages"></div>
-		<form action="addTask" method="post">
+		<form action="${ctx}/catcher/addTask" method="post">
 				任务名称<input type="text"  name="name">  
 		
 			从 <input type="text" class="input" name="startDate" id="startDate"> 到

@@ -77,7 +77,7 @@ $(function(){
 		  <div>
   </div>
   <div id="messages"></div>
-		<form action="addTask" method="post">
+		<form action="${ctx}/catcher/addTask" method="post">
 				任务名称<input type="text"  name="name">  
 		
 			从 <input type="text" class="input" name="startDate" id="startDate"> 到
@@ -92,7 +92,6 @@ $(function(){
 						<th>#</th>
 						<th>任务链接</th>
 						<th>任务结果</th>
-						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -102,7 +101,7 @@ $(function(){
 							<td>${list.id}</td>
 							<td><a href="${list.url}">${list.url}</a></td>
 							<td>
-							${list.type ==remarks}
+							${list.remarks}
 								<c:choose>
 									<c:when test="${list.type ==0}">开始</c:when>
 									<c:when test="${list.type ==1}">完成</c:when>
@@ -110,25 +109,6 @@ $(function(){
 									<c:when test="${list.type ==3}">失败</c:when>
 								</c:choose>
 								
-							</td>
-							<td>${list.creatTime}</td>
-							<td>
-								<div class="list-group">
-									<a href="#" class="list-group-item list-group-item-danger">
-										 <span class="glyphicon glyphicon-trash"> 停止</span>
-									</a>
-									<a href="${ctx}/catcher/taskLog/2/${list.id}" class="list-group-item list-group-item-primary"> 
-										<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"> 成功日志</span>
-									</a>
-									<a href="${ctx}/catcher/taskLog/3/${list.id}" class="list-group-item list-group-item-primary"> 
-										<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"> 失败日志</span>
-									</a>
-									<c:if test="${list.state ==1}">
-									 <a href="${ctx}/catcher/total/${list.id}" class="list-group-item list-group-item-primary"> 
-										<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"> 统计</span>
-									</a>
-									</c:if>
-								</div>
 							</td>
 						</tr>
 					</c:forEach>

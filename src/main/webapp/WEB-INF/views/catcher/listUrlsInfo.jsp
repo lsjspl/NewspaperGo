@@ -77,7 +77,7 @@ $(function(){
 		  <div>
   </div>
   <div id="messages"></div>
-		<form action="addTask" method="post">
+		<form action="${ctx}/catcher/addTask" method="post">
 				任务名称<input type="text"  name="name">  
 		
 			从 <input type="text" class="input" name="startDate" id="startDate"> 到
@@ -124,12 +124,13 @@ $(function(){
 							 <td>
 							 		<div>标题：${list.titlePattern}</div>
 							 		<div>内容：${list.contentPattern}</div>
+							 		<div>首页：${list.areaPattern}</div>
 							 </td>
 							<td>
 								<div class="list-group">
 									<a href="${ctx}/order/delOrders/${list.id}" class="list-group-item list-group-item-danger">
 										 <span class="glyphicon glyphicon-trash"> 删除</span>
-									</a> <a href="${ctx}/catcher/updateUrlsInfo/${list.id}" class="list-group-item list-group-item-primary"> 
+									</a> <a href="${ctx}/catcher/updateUrlsInfo/${list.id}" target="view_window" class="list-group-item list-group-item-primary"> 
 										<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"> 编辑</span>
 									</a>
 								</div>
