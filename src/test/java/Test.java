@@ -21,17 +21,18 @@ public class Test {
 
 	public static void main(String[] args) throws IOException {
 
-		Document htmlDoc = Jsoup.connect("http://epaper.scdaily.cn/shtml/scrb/20160724/index.shtml")
+		Document htmlDoc = Jsoup.connect("http://paper.dzwww.com/dzrb/content/20160710/Page01NU.htm")
 				.userAgent(
 						"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31")
 				.timeout(50000).get();
 		//
 		//
-		System.out.println(htmlDoc);
 
-		String ss = htmlDoc.select(".title_art").text();
+		
+		System.out.println(htmlDoc);
+		String ss = htmlDoc.select(".overlink").attr("href");
 		//
-		System.out.println(ss);
+		System.err.println(ss);
 	}
 
 	static String send(String url) {

@@ -127,7 +127,7 @@ public class CatcherService {
 				System.out.println("解析首页失败：" + urls);
 				continue;
 			}
-
+			
 			String titlePattern = urlsInfo.getTitlePattern();
 			String contentPattern = urlsInfo.getContentPattern();
 			String areaPattern = urlsInfo.getAreaPattern();
@@ -144,9 +144,21 @@ public class CatcherService {
 
 			for (Element element : areas) {
 
-				String childUrl = element.attr("href");
+				String childUrl;
+				 if(element.hasAttr("url")){
+					childUrl=element.attr("url");
+				}else if(element.hasAttr("href")){
+					childUrl=element.attr("href");
+				}else{
+					addTaskLog(TASK_FAILED_MAIN, 0, task.getId(), urlsInfo.getId(), urls,"内页没有相关的属性");
+					System.out.println("内页没有相关的属性");
+					continue;
+				}
 
-				if (!childUrl.startsWith("http://") && !childUrl.startsWith("https://")) {
+				if(childUrl.startsWith("/")){
+					childUrl = urls.substring(0, urls.indexOf("/",urls.indexOf("://")+3)) + childUrl;
+				}else if(childUrl.startsWith("http://")|| childUrl.startsWith("https://")){
+				}else{
 					childUrl = urls.substring(0, urls.lastIndexOf("/") + 1) + childUrl;
 				}
 				
@@ -212,6 +224,7 @@ public class CatcherService {
 		String urls = urlsInfo.getUrls();
 
 		try {
+			System.out.println("首页 "+urls);
 			urls = saxUrlForDate(urls, date);
 			htmlDoc = Jsoup.connect(urls)
 					.userAgent(
@@ -219,7 +232,7 @@ public class CatcherService {
 					.timeout(50000).get();
 		} catch (Exception e1) {
 			e1.printStackTrace();
-			System.out.println("失败了");
+			System.out.println("失败了"+urls);
 			return null;
 		}
 
@@ -230,13 +243,25 @@ public class CatcherService {
 		Elements areas = htmlDoc.select(StringUtils.isEmpty(areaPattern) ? "area" : areaPattern);
 
 		for (Element element : areas) {
+			
+			String childUrl;
 
-			String childUrl = element.attr("href");
-
-			if (!childUrl.startsWith("http://") && !childUrl.startsWith("https://")) {
-				childUrl = urls.substring(0, urls.lastIndexOf("/") + 1) + childUrl;
+			 if(element.hasAttr("url")){
+				childUrl=element.attr("url");
+			}else if(element.hasAttr("href")){
+				childUrl=element.attr("href");
+			}else{
+				System.out.println("内页没有相关的属性");
+				continue;
 			}
 
+			if(childUrl.startsWith("/")){
+				childUrl = urls.substring(0, urls.indexOf("/",urls.indexOf("://")+3)) + childUrl;
+			}else if(childUrl.startsWith("http://")|| childUrl.startsWith("https://")){
+			}else{
+				childUrl = urls.substring(0, urls.lastIndexOf("/") + 1) + childUrl;
+			}
+			System.out.println("内页 "+childUrl);
 			try {
 				Document childDoc = Jsoup.connect(childUrl)
 						.userAgent(
