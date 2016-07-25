@@ -50,8 +50,8 @@ $(function(){
 							<td>${list.weekCount}</td>	
 							<td>
 							<c:forEach items="${list.url}" var="url" varStatus="vs">
-								<div>标题：<span class="title">${title}</span></div>
-								<div>地址：<span class="url"><a href="${url}" target="view_window">${url}</a></span></div>
+								<div>标题：<span class="title">${list.title[vs.index]}</span></div>
+								<div>地址：<span class="url"><a href="${url}" target="_blank">${url}</a></span></div>
 							 	<div>时间：<span class="time"><fmt:formatDate value="${list.time[vs.index]}" type="date" pattern="yyyy-MM-dd "/></span>
 							 		<span><a href="${ctx}/catcher/deleteCatcher/${list.id[vs.index]}">
 										 <span class="glyphicon glyphicon-trash"></span>

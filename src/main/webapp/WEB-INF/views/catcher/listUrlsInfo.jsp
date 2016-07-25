@@ -130,7 +130,7 @@ $(function(){
 								<div class="list-group">
 									<a href="${ctx}/order/delOrders/${list.id}" class="list-group-item list-group-item-danger">
 										 <span class="glyphicon glyphicon-trash"> 删除</span>
-									</a> <a href="${ctx}/catcher/updateUrlsInfo/${list.id}" target="view_window" class="list-group-item list-group-item-primary"> 
+									</a> <a href="${ctx}/catcher/updateUrlsInfo/${list.id}" target="_blank" class="list-group-item list-group-item-primary"> 
 										<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"> 编辑</span>
 									</a>
 								</div>

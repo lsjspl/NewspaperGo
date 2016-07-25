@@ -29,7 +29,7 @@
 				success:function(data,status){
 					$("#testResult").html(
 					
-							'<div>地址：<a href="'+data.url+'"    target="view_window">'+data.url+'</a></div>'+
+							'<div>地址：<a href="'+data.url+'"    target="_blank">'+data.url+'</a></div>'+
 							'<div>标题：'+data.title+'</div>'+
 							'<div>内容：'+data.content+'</div>'
 					
