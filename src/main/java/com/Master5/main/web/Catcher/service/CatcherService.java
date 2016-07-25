@@ -96,7 +96,7 @@ public class CatcherService {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(startDate);
 
-		while (calendar.getTimeInMillis() < endDate.getTime()) {
+		while (calendar.getTimeInMillis() <=endDate.getTime()) {
 			catcherWork(urls, calendar.getTime(), task);
 			calendar.add(Calendar.DAY_OF_MONTH, 1);
 		}
