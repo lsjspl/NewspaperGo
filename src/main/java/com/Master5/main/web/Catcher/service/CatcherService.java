@@ -149,7 +149,8 @@ public class CatcherService {
 				if (!childUrl.startsWith("http://") && !childUrl.startsWith("https://")) {
 					childUrl = urls.substring(0, urls.lastIndexOf("/") + 1) + childUrl;
 				}
-				childUrl = childUrl.replace("?div=1", "").replace("?div=-1", "").replace("?div=0", "");
+				
+				
 				try {
 					Document childDoc = Jsoup.connect(childUrl)
 							.userAgent(
