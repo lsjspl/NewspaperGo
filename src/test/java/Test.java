@@ -20,19 +20,19 @@ import org.jsoup.select.Elements;
 public class Test {
 
 	public static void main(String[] args) throws IOException {
-
-		Document htmlDoc = Jsoup.connect("http://paper.dzwww.com/dzrb/content/20160710/Page01NU.htm")
-				.userAgent(
-						"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31")
-				.timeout(50000).get();
-		//
-		//
-
-		
-		System.out.println(htmlDoc);
-		String ss = htmlDoc.select(".overlink").attr("href");
-		//
-		System.err.println(ss);
+//
+//		Document htmlDoc = Jsoup.connect("http://szb.gzrbs.com.cn/gzrb/gzrb/rb/20160725/Page01OW.htm")
+//				.userAgent(
+//						"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31")
+//				.timeout(50000).get();
+//		//
+//		//
+//
+//		
+//		System.out.println(htmlDoc);
+//		String ss = htmlDoc.select(".overlink").attr("href");
+//		//
+		System.err.println(   1==1 || 1==1 && 1==0 );
 	}
 
 	static String send(String url) {

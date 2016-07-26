@@ -95,13 +95,14 @@ public class CatcherController {
 	@RequestMapping(value = "total/{taskId}")
 	public String total(Model model,@PathVariable int taskId) {
 		model.addAttribute("list", catcherService.total(taskId));
+		model.addAttribute("taksId", taskId);
 		return "catcher/total";
 	}
 
-	@RequestMapping(value = "deleteCatcher/{id}")
-	public String deleteCatcher(@PathVariable int id) {
-		catcherService.deleteCatcherById(id);
-		return "redirect:/catcher/total";
+	@RequestMapping(value = "updateCatcherState/{taskId}/{id}/{state}/{point}")
+	public String deleteCatcher(@PathVariable int id,@PathVariable int taskId,@PathVariable int state,@PathVariable int point) {
+		catcherService.updateCatcherState(id,state);
+		return "redirect:/catcher/total/"+taskId+"#"+point;
 	}
 	
 	@RequestMapping(value = "taskLog/{type}/{taskId}")

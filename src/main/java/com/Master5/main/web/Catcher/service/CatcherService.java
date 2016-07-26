@@ -85,7 +85,7 @@ public class CatcherService {
 		urlsInfo.setAreaPattern(StringEscapeUtils.escapeHtml(urlsInfo.getAreaPattern()));
 		urlsInfo.setContentPattern(StringEscapeUtils.escapeHtml(urlsInfo.getContentPattern()));
 		urlsInfo.setCreatTime(Calendar.getInstance().getTime());
-		return urlsInfoDao.saveAndFlush(urlsInfo);
+		return urlsInfoDao.save(urlsInfo);
 	}
 
 	public List<Catcher> queryCatcher() {
@@ -96,7 +96,7 @@ public class CatcherService {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(startDate);
 
-		while (calendar.getTimeInMillis() <=endDate.getTime()) {
+		while (calendar.getTimeInMillis() <= endDate.getTime()) {
 			catcherWork(urls, calendar.getTime(), task);
 			calendar.add(Calendar.DAY_OF_MONTH, 1);
 		}
@@ -127,7 +127,7 @@ public class CatcherService {
 				System.out.println("解析首页失败：" + urls);
 				continue;
 			}
-			
+
 			String titlePattern = urlsInfo.getTitlePattern();
 			String contentPattern = urlsInfo.getContentPattern();
 			String areaPattern = urlsInfo.getAreaPattern();
@@ -145,24 +145,23 @@ public class CatcherService {
 			for (Element element : areas) {
 
 				String childUrl;
-				 if(element.hasAttr("url")){
-					childUrl=element.attr("url");
-				}else if(element.hasAttr("href")){
-					childUrl=element.attr("href");
-				}else{
-					addTaskLog(TASK_FAILED_MAIN, 0, task.getId(), urlsInfo.getId(), urls,"内页没有相关的属性");
+				if (element.hasAttr("url")) {
+					childUrl = element.attr("url");
+				} else if (element.hasAttr("href")) {
+					childUrl = element.attr("href");
+				} else {
+					addTaskLog(TASK_FAILED_MAIN, 0, task.getId(), urlsInfo.getId(), urls, "内页没有相关的属性");
 					System.out.println("内页没有相关的属性");
 					continue;
 				}
 
-				if(childUrl.startsWith("/")){
-					childUrl = urls.substring(0, urls.indexOf("/",urls.indexOf("://")+3)) + childUrl;
-				}else if(childUrl.startsWith("http://")|| childUrl.startsWith("https://")){
-				}else{
+				if (childUrl.startsWith("/")) {
+					childUrl = urls.substring(0, urls.indexOf("/", urls.indexOf("://") + 3)) + childUrl;
+				} else if (childUrl.startsWith("http://") || childUrl.startsWith("https://")) {
+				} else {
 					childUrl = urls.substring(0, urls.lastIndexOf("/") + 1) + childUrl;
 				}
-				
-				
+
 				try {
 					Document childDoc = Jsoup.connect(childUrl)
 							.userAgent(
@@ -180,7 +179,7 @@ public class CatcherService {
 					catcher.setTime(date);
 					catcher.setUrl(childUrl);
 					catcher.setTaskId(task.getId());
-					catcher = catcherDao.saveAndFlush(catcher);
+					catcher = catcherDao.save(catcher);
 
 					addTaskLog(TASK_SUCCESS_MAIN, catcher.getId(), task.getId(), urlsInfo.getId(), childUrl, "内页");
 
@@ -197,7 +196,7 @@ public class CatcherService {
 
 		addTaskLog(TASK_FINISH, 0, task.getId(), 0, "", "任务完成：" + task.getName());
 		task.setState(1);
-		catcherTaskDao.saveAndFlush(task);
+		catcherTaskDao.save(task);
 	}
 
 	private String saxUrlForDate(String urls, Date date) throws Exception {
@@ -224,7 +223,7 @@ public class CatcherService {
 		String urls = urlsInfo.getUrls();
 
 		try {
-			System.out.println("首页 "+urls);
+			System.out.println("首页 " + urls);
 			urls = saxUrlForDate(urls, date);
 			htmlDoc = Jsoup.connect(urls)
 					.userAgent(
@@ -232,7 +231,7 @@ public class CatcherService {
 					.timeout(50000).get();
 		} catch (Exception e1) {
 			e1.printStackTrace();
-			System.out.println("失败了"+urls);
+			System.out.println("失败了" + urls);
 			return null;
 		}
 
@@ -243,25 +242,25 @@ public class CatcherService {
 		Elements areas = htmlDoc.select(StringUtils.isEmpty(areaPattern) ? "area" : areaPattern);
 
 		for (Element element : areas) {
-			
+
 			String childUrl;
 
-			 if(element.hasAttr("url")){
-				childUrl=element.attr("url");
-			}else if(element.hasAttr("href")){
-				childUrl=element.attr("href");
-			}else{
+			if (element.hasAttr("url")) {
+				childUrl = element.attr("url");
+			} else if (element.hasAttr("href")) {
+				childUrl = element.attr("href");
+			} else {
 				System.out.println("内页没有相关的属性");
 				continue;
 			}
 
-			if(childUrl.startsWith("/")){
-				childUrl = urls.substring(0, urls.indexOf("/",urls.indexOf("://")+3)) + childUrl;
-			}else if(childUrl.startsWith("http://")|| childUrl.startsWith("https://")){
-			}else{
+			if (childUrl.startsWith("/")) {
+				childUrl = urls.substring(0, urls.indexOf("/", urls.indexOf("://") + 3)) + childUrl;
+			} else if (childUrl.startsWith("http://") || childUrl.startsWith("https://")) {
+			} else {
 				childUrl = urls.substring(0, urls.lastIndexOf("/") + 1) + childUrl;
 			}
-			System.out.println("内页 "+childUrl);
+			System.out.println("内页 " + childUrl);
 			try {
 				Document childDoc = Jsoup.connect(childUrl)
 						.userAgent(
@@ -327,8 +326,8 @@ public class CatcherService {
 
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(time);
-				if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
-						|| cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+				if (state==3 || state == 0 && (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
+						|| cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) ) {
 					isWeek = true;
 				}
 
@@ -341,7 +340,8 @@ public class CatcherService {
 
 					Map<String, Object> tmp = totalCache.get(key);
 
-					if (((List<String>) tmp.get("url")).contains(url) || ((List<String>) tmp.get("title")).contains(title)) {
+					if (((List<String>) tmp.get("url")).contains(url)
+							|| ((List<String>) tmp.get("title")).contains(title)) {
 						continue;
 					}
 					tmp.put("name", name);
@@ -350,10 +350,13 @@ public class CatcherService {
 					((List<Date>) tmp.get("time")).add(time);
 					((List<Integer>) tmp.get("id")).add(id);
 					((List<String>) tmp.get("title")).add(title);
-					tmp.put("count", (Integer) tmp.get("count") + 1);
-					tmp.put("weekCount", (Integer) tmp.get("weekCount") + (isWeek ? 1 : 0));
-					tmp.put("vipCount", (Integer) tmp.get("vipCount") + (isVip ? 1 : 0));
-					tmp.put("day", dayCache.get(key).size());
+					((List<Integer>) tmp.get("state")).add(state);
+					if (state != 1) {
+						tmp.put("count", (Integer) tmp.get("count") + 1);
+						tmp.put("vipCount", (Integer) tmp.get("vipCount") + (isVip ? 1 : 0));
+						tmp.put("day", (Integer) tmp.get("day") + 1);
+						tmp.put("weekCount", (Integer) tmp.get("weekCount") + (isWeek ? 1 : 0));
+					}
 				} else {
 					Map<String, Object> tmp = new HashMap<>();
 					tmp.put("name", name);
@@ -362,14 +365,23 @@ public class CatcherService {
 					tmp.put("time", new ArrayList<Date>());
 					tmp.put("id", new ArrayList<Integer>());
 					tmp.put("title", new ArrayList<String>());
+					tmp.put("state", new ArrayList<Integer>());
 					((List<String>) tmp.get("url")).add(url);
 					((List<Date>) tmp.get("time")).add(time);
 					((List<Integer>) tmp.get("id")).add(id);
 					((List<String>) tmp.get("title")).add(title);
-					tmp.put("count", 1);
-					tmp.put("day", dayCache.get(key).size());
-					tmp.put("weekCount", isWeek ? 1 : 0);
-					tmp.put("vipCount", isVip ? 1 : 0);
+					((List<Integer>) tmp.get("state")).add(state);
+					if (state != 1) {
+						tmp.put("count", 1);
+						tmp.put("day", 1);
+						tmp.put("vipCount", isVip ? 1 : 0);
+						tmp.put("weekCount", isWeek ? 1 : 0);
+					} else {
+						tmp.put("count", 0);
+						tmp.put("day", 0);
+						tmp.put("weekCount", 0);
+						tmp.put("vipCount", 0);
+					}
 					result.add(tmp);
 					totalCache.put(key, tmp);
 				}
@@ -387,7 +399,7 @@ public class CatcherService {
 
 		task.setCreatTime(Calendar.getInstance().getTime());
 		task.setState(0);
-		task = catcherTaskDao.saveAndFlush(task);
+		task = catcherTaskDao.save(task);
 		try {
 			ProducerConsumer.getInstance().put(task);
 		} catch (InterruptedException e) {
@@ -398,6 +410,14 @@ public class CatcherService {
 
 	public List<CatcherTask> queryTask() {
 		return catcherTaskDao.findAll();
+	}
+
+	public void updateCatcherState(int id, int state) {
+
+		Catcher catcher = catcherDao.findOne(id);
+		catcher.setState(state);
+		catcher.setId(id);
+		catcherDao.save(catcher);
 	}
 
 }

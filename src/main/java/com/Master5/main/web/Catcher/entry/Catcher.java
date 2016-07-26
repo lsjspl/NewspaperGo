@@ -39,6 +39,11 @@ public class Catcher {
 
 	private int urlId;
 
+	/**
+	 * 0 正常统计
+	 * 1 不统计
+	 * 2 不是周末
+	 */
 	private int state;
 	
 	private int taskId;
