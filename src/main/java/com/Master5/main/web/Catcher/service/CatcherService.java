@@ -341,7 +341,7 @@ public class CatcherService {
 
 					Map<String, Object> tmp = totalCache.get(key);
 
-					if (((List<String>) tmp.get("url")).contains(url)) {
+					if (((List<String>) tmp.get("url")).contains(url) || ((List<String>) tmp.get("title")).contains(title)) {
 						continue;
 					}
 					tmp.put("name", name);
