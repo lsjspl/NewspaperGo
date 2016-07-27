@@ -9,9 +9,13 @@ import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +24,9 @@ public class Tools {
 
 	private static final Logger logger = LoggerFactory.getLogger(Tools.class);
 
-	public static void main(String[] args) {
 
-	}
-
+	static Pattern timePattern = Pattern.compile("%(\\S*)%");
+	
 	/**
 	 * 功能与描述：根据数组拼出用,分割的字符串
 	 * 
@@ -180,6 +183,21 @@ public class Tools {
 		}
 
 		return null;
+	}
+
+	public static String saxUrlForDate(String urls, Date date) throws Exception {
+
+		Matcher timeMatcher = timePattern.matcher(urls);
+
+		if (timeMatcher.find(1)) {
+			String tmp = timeMatcher.group(1);
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(tmp);
+			urls = urls.replaceAll("%(\\S*)%", simpleDateFormat.format(date));
+		} else {
+			throw new Exception("匹配时间错误:" + urls);
+		}
+
+		return urls;
 	}
 
 }

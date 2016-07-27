@@ -11,4 +11,8 @@ public interface CatcherTaskDao  extends JpaRepository<CatcherTask, Integer>{
 	
 	public List<UrlsInfo> findByState(int state);
 
+	public List<CatcherTask> findAllByOrderByIdDesc();
+
+	public List<CatcherTask> findByStateIn(List<Integer> taskStatus);
+
 }

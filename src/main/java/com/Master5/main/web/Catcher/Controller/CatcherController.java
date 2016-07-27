@@ -65,19 +65,6 @@ public class CatcherController {
 		return "redirect:listUrlsInfo";
 	}
 
-	
-	@RequestMapping(value = "addTask")
-	public String addTask(CatcherTask task) {
-		catcherService.saveCatcherTask(task);
-		return "redirect:listTask";
-	}
-	
-	@RequestMapping(value = "listTask")
-	public String listTask(Model model) {
-		model.addAttribute("list", catcherService.queryTask());
-		return "/catcher/listTask";
-	}
-
 	@RequestMapping(value = "testCatcher")
 	@ResponseBody
 	public Catcher testCatcher(UrlsInfo urlsInfo) throws ParseException {
@@ -110,4 +97,36 @@ public class CatcherController {
 		model.addAttribute("list", catcherService.queryTaskLog(type, taskId));
 		return "/catcher/taskLog";
 	}
+
+	/**
+	 * =========================================
+	 * 任务相关
+	 * =============================================
+	 */
+	
+	@RequestMapping(value = "addTask")
+	public String addTask(CatcherTask task) {
+		catcherService.saveCatcherTask(task);
+		return "redirect:listTask";
+	}
+	
+	@RequestMapping(value = "listTask")
+	public String listTask(Model model) {
+		model.addAttribute("list", catcherService.queryTask());
+		return "/catcher/listTask";
+	}
+	
+	
+	@RequestMapping(value = "deleteTask/{taskId}")
+	public String deleteTask(@PathVariable int taskId) {
+		catcherService.deleteTask(taskId);
+		return "redirect:/catcher/listTask";
+	}
+	
+	@RequestMapping(value = "redoTask/{taskId}")
+	public String redoTask(@PathVariable int taskId) {
+		catcherService.redoTask(taskId);
+		return "redirect:/catcher/listTask";
+	}
+	
 }

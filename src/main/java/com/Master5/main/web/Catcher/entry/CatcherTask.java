@@ -13,11 +13,11 @@ import javax.persistence.Table;
 public class CatcherTask {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Integer id;
 
 	private String name;
 
-	// 标记任务状态 0 正在爬取 1 爬取完成 2 删除
+	// 标记任务状态 0等待爬 1 正在爬取2 爬取完成 3爬取失败 4删除
 	private int state;
 
 	private Date startDate;
@@ -25,6 +25,16 @@ public class CatcherTask {
 	private Date endDate;
 
 	private Date creatTime;
+	
+	private String remarks;
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
 
 	public Date getStartDate() {
 		return startDate;
@@ -42,11 +52,11 @@ public class CatcherTask {
 		this.endDate = endDate;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

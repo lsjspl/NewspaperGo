@@ -108,25 +108,38 @@ $(function(){
 							<td>${list.endDate}</td>
 							<td>
 								<c:choose>
-									<c:when test="${list.state ==0}">爬取中</c:when>
-									<c:when test="${list.state ==1}">爬取完成</c:when>
-									<c:when test="${list.state ==2}">任务终止</c:when>
+									<c:when test="${list.state ==0}">等待爬取</c:when>
+									<c:when test="${list.state ==1}">爬取中</c:when>
+									<c:when test="${list.state ==2}">爬取完成</c:when>
+									<c:when test="${list.state ==3}">任务终止</c:when>
 								</c:choose>
-								
+								<div>
+								原因：${list.remarks}
+								</div>
 							</td>
 							<td>${list.creatTime}</td>
 							<td>
 								<div class="list-group">
-									<a href="#" class="list-group-item list-group-item-danger">
-										 <span class="glyphicon glyphicon-trash"> 停止</span>
+
+									<c:if test="${list.state !=1}">
+									<a href="${ctx}/catcher/deleteTask/${list.id}" class="list-group-item list-group-item-danger">
+										 <span class="glyphicon glyphicon-trash"> 删除</span>
 									</a>
+									</c:if>
+									<c:if test="${list.state > 1}">	
+									<a href="${ctx}/catcher/redoTask/${list.id}" class="list-group-item list-group-item-danger">
+										 <span class="glyphicon glyphicon-retweet"> 重新爬取</span>
+									</a>
+									</c:if>
+									<c:if test="${list.state !=0}">	
 									<a href="${ctx}/catcher/taskLog/2/${list.id}" class="list-group-item list-group-item-primary"> 
 										<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"> 成功日志</span>
 									</a>
 									<a href="${ctx}/catcher/taskLog/3/${list.id}" class="list-group-item list-group-item-primary"> 
 										<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"> 失败日志</span>
 									</a>
-									<c:if test="${list.state ==1}">
+									</c:if>
+									<c:if test="${list.state ==2}">
 									 <a href="${ctx}/catcher/total/${list.id}" class="list-group-item list-group-item-primary"> 
 										<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"> 统计</span>
 									</a>
