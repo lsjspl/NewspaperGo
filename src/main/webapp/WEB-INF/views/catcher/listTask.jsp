@@ -63,6 +63,9 @@ $(function(){
 		maxYear: '2020'
 	});
 	
+	$(".del,.redo").click(function(){
+		return confirm("是否要这样做？考虑一下不了？")
+	});
 
 });
 
@@ -123,12 +126,12 @@ $(function(){
 								<div class="list-group">
 
 									<c:if test="${list.state !=1}">
-									<a href="${ctx}/catcher/deleteTask/${list.id}" class="list-group-item list-group-item-danger">
+									<a href="${ctx}/catcher/deleteTask/${list.id}" class="list-group-item list-group-item-danger del">
 										 <span class="glyphicon glyphicon-trash"> 删除</span>
 									</a>
 									</c:if>
 									<c:if test="${list.state > 1}">	
-									<a href="${ctx}/catcher/redoTask/${list.id}" class="list-group-item list-group-item-danger">
+									<a href="${ctx}/catcher/redoTask/${list.id}" class="list-group-item list-group-item-danger redo">
 										 <span class="glyphicon glyphicon-retweet"> 重新爬取</span>
 									</a>
 									</c:if>
