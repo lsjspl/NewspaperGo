@@ -9,11 +9,29 @@
 <META HTTP-EQUIV="pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Cache-Control" CONTENT="no -cache, must-revalidate">
 <META HTTP-EQUIV="expires" CONTENT="Wed, 26 Feb 1997 08:21:57 GMT">
-
+<script src="${ctx}/resources/ui/js/exportTable/tableExport.js"></script>
+<script src="${ctx}/resources/ui/js/exportTable/jquery.base64.js"></script>
 <title>Newspaper Go</title>
 
 <script type="text/javascript">
+
+var getDetail;
+
 $(function(){
+	
+	getDetail=function(catcherId){
+		$.ajax({
+			url:"${ctx}/catcher/catcherDetail",
+			type : "post",
+			data : {id:catcherId},
+			dataType : 'json',
+			success:function(data,status){
+				$("#titleDetail").html(data.title);
+				$("#contentDetail").html(data.content);
+				$("#detailInfo").show();
+			}
+		});
+	}
 	
 	$(".time").each(function(){
 		var day=new Date($(this).text()).getDay();
@@ -25,14 +43,29 @@ $(function(){
 		 $(this).siblings(".displayWeek").remove();
 		}
 	});
+	
+	$("#totalPanel").click(function(){
+		$("#detailInfo").hide();
+	});
+	
 });
+
 </script>
 </head>
 <body>
 
-	<div class="panel panel-default">
+		<div style="position: fixed; width: 400px; height: 600px; display: none; right: 10px; top: 80px; background-color: #fff; z-index: 1000;" 
+		id="detailInfo">
+			<div class="panel panel-default">
+				<div class="panel-heading"  id="titleDetail">
+				</div>
+				<div class="panel-body"  id="contentDetail" style="overflow:auto;height: 500px;">
+				</div>
+			</div>
+		</div>
+	<div class="panel panel-default"  id="totalPanel">
 		<!-- Default panel contents -->
-		<div class="panel-heading">信息统计</div>
+		<div class="panel-heading">信息统计  </div>
 		<div class="table-responsive">
 			<table class="table table-hover">
 				<thead>
@@ -58,7 +91,7 @@ $(function(){
 							<c:forEach items="${list.url}" var="url" varStatus="vs">
 								<div>
 									<span class="label label-primary">${vs.index+1}</span>&nbsp;&nbsp;
-									<span class="title">${list.title[vs.index]}</span>
+									<span class="title" onclick="getDetail(${list.id[vs.index]})">${list.title[vs.index]}</span>
 								</div>
 								<div>地址：<span class="url"><a href="${url}" target="_blank">${url}</a></span></div>
 							 	<div>时间：
@@ -99,7 +132,8 @@ $(function(){
 
 				</tbody>
 			</table>
-		</div>
+			</div>
 	</div>
+
 </body>
 </html>

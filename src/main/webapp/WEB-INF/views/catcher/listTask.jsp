@@ -72,6 +72,7 @@ $(function(){
 
 	<div class="panel panel-default">
 		<!-- Default panel contents -->
+		
 		<div class="panel-heading">基础信息维护</div>
 		<div class="panel-body">
 		  <div>

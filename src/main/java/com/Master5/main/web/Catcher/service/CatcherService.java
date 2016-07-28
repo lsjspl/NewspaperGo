@@ -55,7 +55,7 @@ public class CatcherService {
 		return urlsInfoDao.findAll();
 	}
 
-	public UrlsInfo queryOne(int id) {
+	public UrlsInfo queryUrlsInfoOne(int id) {
 		return urlsInfoDao.findOne(id);
 	}
 
@@ -71,6 +71,10 @@ public class CatcherService {
 		return catcherDao.findAll();
 	}
 
+	public Catcher queryCatcherOne(int id) {
+		return catcherDao.findOne(id);
+	}
+	
 	public Catcher testCatcher(UrlsInfo urlsInfoTmp, Date date) {
 
 		Document htmlDoc = null;

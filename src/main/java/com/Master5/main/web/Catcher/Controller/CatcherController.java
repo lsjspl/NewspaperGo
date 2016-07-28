@@ -55,7 +55,7 @@ public class CatcherController {
 
 	@RequestMapping(value = "updateUrlsInfo/{id}", method = RequestMethod.GET)
 	public String updateUrlsInfo(@PathVariable int id, Model model) {
-		model.addAttribute("urlsInfo", catcherService.queryOne(id));
+		model.addAttribute("urlsInfo", catcherService.queryUrlsInfoOne(id));
 		return "catcher/updateUrlsInfo";
 	}
 
@@ -85,6 +85,15 @@ public class CatcherController {
 		model.addAttribute("taksId", taskId);
 		return "catcher/total";
 	}
+	
+
+	@RequestMapping(value = "catcherDetail")
+	@ResponseBody
+	public Catcher catcherDetail(int id) throws ParseException {
+
+		return catcherService.queryCatcherOne(id);
+	}
+
 
 	@RequestMapping(value = "updateCatcherState/{taskId}/{id}/{state}/{point}")
 	public String deleteCatcher(@PathVariable int id,@PathVariable int taskId,@PathVariable int state,@PathVariable int point) {
