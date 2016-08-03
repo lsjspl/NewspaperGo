@@ -78,16 +78,48 @@ $(function(){
 		
 		<div class="panel-heading">基础信息维护</div>
 		<div class="panel-body">
-		  <div>
-  </div>
-  <div id="messages"></div>
-		<form action="${ctx}/catcher/addTask" method="post">
-				任务名称<input type="text"  name="name">  
+				
+				<form  class="form-horizontal" action="${ctx}/catcher/addTask" method="post">
+				
+					<div class="form-group">
+				      <label for="name" class="col-lg-2 control-label">任务名称</label>
+				      <div class="col-lg-10">
+				        <input type="text" class="form-control" name="name" id="name" placeholder="任务名称">
+				      </div>
+				    </div>
+				
+					<div class="form-group">
+				      <label for="startDate" class="col-lg-2 control-label">开始时间</label>
+				      <div class="col-lg-10">
+				        <input type="text" class="form-control" name="startDate" id="startDate" placeholder="开始时间">
+				      </div>
+				    </div>
 		
-			从 <input type="text" class="input" name="startDate" id="startDate"> 到
-			<input type="text" class="input" name="endDate" id="endDate">
-				<button type="submit" >增加爬虫任务</button>
-		</form>
+					<div class="form-group">
+				      <label for="endDate" class="col-lg-2 control-label">结束时间</label>
+				      <div class="col-lg-10">
+				        <input type="text" class="form-control" name="endDate" id="endDate" placeholder="结束时间">
+				      </div>
+				    </div>
+				    		    		
+				    		    		
+				    <div class="form-group">
+				      <label for="inputPassword" class="col-lg-2 control-label">报纸名称</label>
+				      <div class="col-lg-10">
+						<div class="checkbox">
+							<c:forEach items="${urlsInfoList}" var="urlsInfo">
+						
+				         	 <label>
+				          	  <input type="checkbox" checked="checked" name="urlsInfos" value="urlsInfo.id">${urlsInfo.name}
+				          	  </label>
+							</c:forEach>
+						</div>
+				      </div>
+				    </div>		    		    		
+		
+					<button type="submit" >增加爬虫任务</button>
+				</form>
+		
 		</div>
 		<div class="table-responsive">
 			<table class="table table-hover">

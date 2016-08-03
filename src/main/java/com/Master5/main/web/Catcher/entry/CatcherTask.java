@@ -1,6 +1,7 @@
 package com.Master5.main.web.Catcher.entry;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,6 +28,26 @@ public class CatcherTask {
 	private Date creatTime;
 	
 	private String remarks;
+	
+	private List<String> urlsInfoIds;
+	
+	private int type;
+	
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public List<String> getUrlsInfoIds() {
+		return urlsInfoIds;
+	}
+
+	public void setUrlsInfoIds(List<String> urlsInfoIds) {
+		this.urlsInfoIds = urlsInfoIds;
+	}
 
 	public String getRemarks() {
 		return remarks;

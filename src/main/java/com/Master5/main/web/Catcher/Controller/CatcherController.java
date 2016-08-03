@@ -122,6 +122,7 @@ public class CatcherController {
 	@RequestMapping(value = "listTask")
 	public String listTask(Model model) {
 		model.addAttribute("list", catcherService.queryTask());
+		model.addAttribute("urlsInfoList", catcherService.queryUrlsInfo());
 		return "/catcher/listTask";
 	}
 	
