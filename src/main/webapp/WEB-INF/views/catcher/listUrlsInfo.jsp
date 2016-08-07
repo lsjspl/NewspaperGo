@@ -73,18 +73,6 @@ $(function(){
 	<div class="panel panel-default">
 		<!-- Default panel contents -->
 		<div class="panel-heading">基础信息维护</div>
-		<div class="panel-body">
-		  <div>
-  </div>
-  <div id="messages"></div>
-		<form action="${ctx}/catcher/addTask" method="post">
-				任务名称<input type="text"  name="name">  
-		
-			从 <input type="text" class="input" name="startDate" id="startDate"> 到
-			<input type="text" class="input" name="endDate" id="endDate">
-				<button type="submit" >增加爬虫任务</button>
-		</form>
-		</div>
 		<div class="table-responsive">
 			<table class="table table-hover">
 				<thead>

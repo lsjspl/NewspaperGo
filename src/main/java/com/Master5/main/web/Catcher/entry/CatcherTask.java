@@ -29,7 +29,7 @@ public class CatcherTask {
 	
 	private String remarks;
 	
-	private List<String> urlsInfoIds;
+	private  String  urlsInfoIds;
 	
 	private int type;
 	
@@ -41,11 +41,11 @@ public class CatcherTask {
 		this.type = type;
 	}
 
-	public List<String> getUrlsInfoIds() {
+	public String getUrlsInfoIds() {
 		return urlsInfoIds;
 	}
 
-	public void setUrlsInfoIds(List<String> urlsInfoIds) {
+	public void setUrlsInfoIds(String urlsInfoIds) {
 		this.urlsInfoIds = urlsInfoIds;
 	}
 

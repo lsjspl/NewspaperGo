@@ -2,6 +2,7 @@ package com.Master5.main.web.Catcher.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -48,15 +49,15 @@ public class CatcherTaskService {
 	public static LinkedBlockingQueue<Integer> getCatcherQueue() {
 		return queue;
 	}
-	
-	public static void put(Integer taskId){
+
+	public static void put(Integer taskId) {
 		try {
 			queue.put(taskId);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	class Consumer extends Thread {
 		public void run() {
 			CatcherTask task = null;
@@ -70,11 +71,11 @@ public class CatcherTaskService {
 					}
 					task.setState(TaskStatus.WORKING);
 					catcherTaskDao.save(task);
-					
+
 					addTaskLog(TASK_START, 0, task.getId(), 0, "", "任务开启：" + task.getName());
-					
-					catcherWork(null,task.getStartDate(),task.getEndDate(),task);
-					
+
+					catcherWork(null, task.getStartDate(), task.getEndDate(), task);
+
 					addTaskLog(TASK_FINISH, 0, task.getId(), 0, "", "任务完成：" + task.getName());
 					task.setState(TaskStatus.FINISH);
 					catcherTaskDao.save(task);
@@ -112,11 +113,27 @@ public class CatcherTaskService {
 
 		Document htmlDoc;
 
-		List<UrlsInfo> UrlsInfoList = urlsInfoDao.findByState(0);
+		String urlsInfoIds = task.getUrlsInfoIds();
+		
+		List<UrlsInfo> urlsInfoList;
+		
+		if (urlsInfoIds != null && !urlsInfoIds.equals("")) {
+			
+			List<Integer> urlsIdsList=new ArrayList<>();
+			String[] tmps=urlsInfoIds.split(",");
+			for(String tmp:tmps){
+				urlsIdsList.add(Integer.parseInt(tmp));
+			}
+			
+			//别问我为什么这么拼第二个参数 过度封装的东西真让人恶心
+			urlsInfoList = urlsInfoDao.findByStateAndIdIn(0, urlsIdsList);
+		} else {
+			urlsInfoList = urlsInfoDao.findByState(0);
+		}
 
 		Catcher catcher = new Catcher();
 
-		for (UrlsInfo urlsInfo : UrlsInfoList) {
+		for (UrlsInfo urlsInfo : urlsInfoList) {
 
 			String urls = urlsInfo.getUrls();
 
@@ -237,7 +254,6 @@ public class CatcherTaskService {
 			CatcherTaskService.getCatcherQueue().clear();
 		}
 
-		
 		new Consumer().start();
 	}
 }

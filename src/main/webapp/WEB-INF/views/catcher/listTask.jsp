@@ -110,7 +110,7 @@ $(function(){
 							<c:forEach items="${urlsInfoList}" var="urlsInfo">
 						
 				         	 <label>
-				          	  <input type="checkbox" checked="checked" name="urlsInfos" value="urlsInfo.id">${urlsInfo.name}
+				          	  <input type="checkbox" checked="checked" name="urlsInfoIds" value="${urlsInfo.id}">${urlsInfo.name}
 				          	  </label>
 							</c:forEach>
 						</div>

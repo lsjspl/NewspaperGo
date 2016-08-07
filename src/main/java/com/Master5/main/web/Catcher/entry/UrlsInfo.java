@@ -138,5 +138,13 @@ public class UrlsInfo {
 		this.creatTime = creatTime;
 	}
 
+	@Override
+	public String toString() {
+		return "UrlsInfo [id=" + id + ", urls=" + urls + ", name=" + name + ", keyWord=" + keyWord + ", creatTime="
+				+ creatTime + ", type=" + type + ", state=" + state + ", titlePattern=" + titlePattern
+				+ ", areaPattern=" + areaPattern + ", urlPattern=" + urlPattern + ", otherPattern=" + otherPattern
+				+ ", contentPattern=" + contentPattern + "]";
+	}
+
 
 }
