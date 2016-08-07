@@ -66,7 +66,16 @@ $(function(){
 	$(".del,.redo").click(function(){
 		return confirm("是否要这样做？考虑一下不了？")
 	});
-
+	
+	$("#onePaper").click(function(){
+		$("#onePaperBtn").button('toggle');
+		console.log($("#onePaper .active").get(0));
+		$(".type0").prop("checked",$("#onePaper .active").get(0)?false:"checked");
+	});
+	$("#twoPaper").click(function(){
+		$("#twoPaperBtn").button('toggle');
+		$(".type1").prop("checked",$("#twoPaper .active").get(0)?false:"checked");
+	});
 });
 
 </script>
@@ -106,18 +115,32 @@ $(function(){
 				    <div class="form-group">
 				      <label for="inputPassword" class="col-lg-2 control-label">报纸名称</label>
 				      <div class="col-lg-10">
+				      <div class="btn-group" data-toggle="buttons">
+						  <label class="btn btn-info active" id="onePaper" >
+						    <input type="checkbox"  id="onePaperBtn"  autocomplete="off" checked> 地方媒体
+						  </label>
+						  <label class="btn btn-info active" id="twoPaper">
+						    <input type="checkbox"   id="twoPaperBtn" autocomplete="off" checked> 党媒
+						  </label>
+						</div>
 						<div class="checkbox">
 							<c:forEach items="${urlsInfoList}" var="urlsInfo">
 						
 				         	 <label>
-				          	  <input type="checkbox" checked="checked" name="urlsInfoIds" value="${urlsInfo.id}">${urlsInfo.name}
+				          	  <input type="checkbox" checked="checked" class="type${urlsInfo.type}" name="urlsInfoIds" value="${urlsInfo.id}">${urlsInfo.name}
 				          	  </label>
 							</c:forEach>
 						</div>
 				      </div>
 				    </div>		    		    		
 		
-					<button type="submit" >增加爬虫任务</button>
+					<div class="form-group">
+				      <label for="submit" class="col-lg-2 control-label"></label>
+				      <div class="col-lg-10">
+				        <button type="submit" >增加爬虫任务</button>
+				      </div>
+				    </div>
+					
 				</form>
 		
 		</div>
