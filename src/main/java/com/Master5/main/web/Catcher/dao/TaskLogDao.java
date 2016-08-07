@@ -2,6 +2,9 @@ package com.Master5.main.web.Catcher.dao;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,5 +23,5 @@ public interface TaskLogDao extends JpaRepository<TaskLog, Integer> {
 	public void deleteByTaskId(@Param("taskId") int taskId);
 	@Transactional
 	public void deleteByTaskIdIn(List<Integer> taskIds);
-
+	
 }
