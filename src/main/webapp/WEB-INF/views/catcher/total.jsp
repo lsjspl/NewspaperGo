@@ -82,7 +82,7 @@ $(function(){
 
 					<c:forEach items="${list}" var="list"  varStatus="point">
 						<tr id="${point.index}">
-							<td>${list.name}</td>
+							<td><span class="label label-primary">${point.index+1}</span>&nbsp;&nbsp;${list.name}</td>
 							<td>${list.keyWord}</td>
 							<td>${list.count}</td>
 							<td>${list.day}</td>	

@@ -137,7 +137,7 @@ $(function(){
 					<div class="form-group">
 				      <label for="submit" class="col-lg-2 control-label"></label>
 				      <div class="col-lg-10">
-				        <button type="submit" >增加爬虫任务</button>
+				        <button type="submit"  class="btn-primary">增加爬虫任务</button>
 				      </div>
 				    </div>
 					
