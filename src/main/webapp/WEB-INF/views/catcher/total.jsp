@@ -9,13 +9,17 @@
 <META HTTP-EQUIV="pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Cache-Control" CONTENT="no -cache, must-revalidate">
 <META HTTP-EQUIV="expires" CONTENT="Wed, 26 Feb 1997 08:21:57 GMT">
-<script src="${ctx}/resources/ui/js/exportTable/tableExport.js"></script>
-<script src="${ctx}/resources/ui/js/exportTable/jquery.base64.js"></script>
 <title>Newspaper Go</title>
+<style type="text/css">
+
+a:visited {color:gray;}
+</style>
 
 <script type="text/javascript">
 
 var getDetail;
+
+var htmlView;
 
 $(function(){
 	
@@ -33,6 +37,11 @@ $(function(){
 		});
 	}
 	
+	htmlView=function(url){
+		$("#htmlDetail").attr("src",url);
+		$("#htmlView").show();
+	};
+	
 	$(".time").each(function(){
 		var day=new Date($(this).text()).getDay();
 		var week = "周" + "日一二三四五六".split("")[day];
@@ -45,7 +54,16 @@ $(function(){
 	});
 	
 	$("#totalPanel").click(function(){
-		$("#detailInfo").hide();
+		if(!$("#detailInfo").is(":hidden")){
+			$("#detailInfo").hide();
+		}
+		if(!$("#htmlView").is(":hidden")){
+			$("#htmlView").hide();
+		}
+	});
+	
+	$(".title,.url").click(function(){
+		$(this).find(".titleAlert").removeClass("label-primary");
 	});
 	
 });
@@ -62,7 +80,14 @@ $(function(){
 				<div class="panel-body"  id="contentDetail" style="overflow:auto;height: 500px;">
 				</div>
 			</div>
+		</div> 
+		
+		<div style="position: fixed; width: 100%; height: 50%; display: none; right: 0px; bottom: 0px; background-color: #fff; z-index: 1001;" 
+		id="htmlView">
+				<iframe id="htmlDetail" style="width: 100%;height: 100%">
+				</iframe>
 		</div>
+		
 	<div class="panel panel-default"  id="totalPanel">
 		<!-- Default panel contents -->
 		<div class="panel-heading">信息统计  </div>
@@ -90,8 +115,9 @@ $(function(){
 							<td width="600px">
 							<c:forEach items="${list.url}" var="url" varStatus="vs">
 								<div>
-									<span class="label label-primary">${vs.index+1}</span>&nbsp;&nbsp;
-									<span class="title" onclick="getDetail(${list.id[vs.index]})">${list.title[vs.index]}</span>
+									<span class="label label-primary titleAlert">${vs.index+1}</span>&nbsp;&nbsp;
+									<a class="title" onclick="getDetail('${list.id[vs.index]}')" target="_blank">${list.title[vs.index]}</a>
+									&nbsp;&nbsp;<a class="htmlView"  href="javascript:void();" onclick="htmlView('${url}');" target="_blank">缩略图</a><span class="glyphicon glyphicon-link"></span>
 								</div>
 								<div>地址：<span class="url"><a href="${url}" target="_blank">${url}</a></span></div>
 							 	<div>时间：
