@@ -87,7 +87,7 @@ public class Catcher {
 	}
 
 	private static List<String> castUrls(String str) {
-
+		
 		String[] strs = str.split(",");
 
 		String url = strs[1];
